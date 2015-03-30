@@ -1,13 +1,16 @@
+
 ;;==== Add Marmalade to package list ====
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
-;;==== Load PATH from bash====x
+;;==== Load PATH from bash====
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
+(exec-path-from-shell-copy-env "PS1")
+(exec-path-from-shell-copy-env "CELLAR")
 ;; ==== Inhibit startup message =====
-(setq inhibit-startup-message t)
+(setq inhibit-startup-message t) 
 
 ;; ==== Disable the toolbar ====
 (tool-bar-mode -1)
@@ -50,6 +53,9 @@
 ;; Save all backup file in this directory.
 (setq backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
 
+;; ========== Place Autosave Files in Specific Directory ==========
+(setq auto-save-file-name-transforms
+      `((".*" ,"~/.emacs.d/autosaves/" t)))
 ;; ========== Enable Line and Column Numbering ==========
 
 ;; Show line-number in the mode line
