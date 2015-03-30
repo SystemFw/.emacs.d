@@ -64,8 +64,10 @@
 ;; Show column-number in the mode line
 (column-number-mode 1)
 
-
+;;========== Trials
 ;; Enable Ido mode
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
+;; set right command as ctrl
+(setq mac-right-command-modifier 'control)
