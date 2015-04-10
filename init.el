@@ -64,16 +64,20 @@
 ;; Show column-number in the mode line
 (column-number-mode 1)
 
-;;========== Trials
+;;========== Ido mode and Smex ==========
 ;; Enable Ido mode
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (ido-mode 1)
 (ido-ubiquitous-mode 1)
+;; Enable Smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 ;; This is your old M-x.
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
-;; set right command as ctrl
+;;========== Set Right Command as Ctrl ==========
 (setq mac-right-command-modifier 'control)
+
+;;========== WindMove ==========
+(windmove-default-keybindings)
