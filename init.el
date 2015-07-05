@@ -1,4 +1,3 @@
-
 ;;==== Add Marmalade to package list ====
 (require 'package)
 (add-to-list 'package-archives
@@ -83,4 +82,7 @@
 (windmove-default-keybindings)
 
 ;;========== Haskell mode ==========
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)  
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation) 
+
+;;Colour theme
+(load-theme 'tango-dark t) 
