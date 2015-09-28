@@ -84,5 +84,12 @@
 ;;========== Haskell mode ==========
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation) 
 
-;;Colour theme
+;;========== Colour theme ==========
 (load-theme 'tango-dark t) 
+
+;;========== Key chords ==========
+(require 'key-chord)
+
+(key-chord-define-global "fj" 'smex)
+
+(key-chord-mode +1)
