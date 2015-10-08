@@ -113,6 +113,6 @@
 
 ;;========== Key chords ==========
 (require 'key-chord)
-(key-chord-define-global "dk" 'smex)
+(key-chord-define-global "fk" 'smex)
 (key-chord-define-global "fj" ctl-x-map)
 (key-chord-mode +1)
