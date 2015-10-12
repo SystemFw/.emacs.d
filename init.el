@@ -1,7 +1,9 @@
-;; ========== Add Marmalade to package list ==========
+;; ========== Package list ==========
 (require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("melpa-stable" . "http://stable.melpa.org/packages/")
+                         ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 
 
@@ -35,13 +37,10 @@
 ;; set `indent-tabs-mode' to `nil'. This is a per-buffer variable;
 ;; altering the variable affects only the current buffer, but it can be
 ;; disabled for all buffers.
-
-;;
 ;; Use (setq ...) to set value locally to a buffer
 ;; Use (setq-default ...) to set value globally 
 ;;
 (setq-default indent-tabs-mode nil) 
-
 
 
 ;; ========== Support Wheel Mouse Scrolling ==========
@@ -72,6 +71,7 @@
 ;; Show column-number in the mode line
 (column-number-mode 1)
 
+
 ;; ========== Redefine some common keybindings ==========
 ;; the following are redefined so that common commands
 ;; only require one C-x prefix, that will be bound to
@@ -81,7 +81,8 @@
 (global-set-key (kbd "C-x s") 'save-buffer)
 (global-set-key (kbd "C-x C-s") 'save-some-buffers)
 
-;;========== Ido mode and Smex ==========
+
+;; ========== Ido mode and Smex ==========
 ;; Enable Ido mode
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -94,25 +95,33 @@
 (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
 
-
-;;========== Set Right Command as Ctrl ==========
+;; ========== Set Right Command as Ctrl ==========
 (setq mac-right-command-modifier 'control)
 
 
-;;========== WindMove ==========
+;; ========== WindMove ==========
 (windmove-default-keybindings)
 
 
-;;========== Haskell mode ==========
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation) 
+;; ========== Haskell mode ==========
+(require 'haskell-interactive-mode)
+(require 'haskell-process)
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+(add-hook 'haskell-mode-hook 'haskell-doc-mode)
+;;This is the only useful shortcut not enabled out of the box
+(define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 
 
-;;========== Colour theme ==========
+;; ========== Colour theme ==========
 (load-theme 'tango-dark t) 
 
 
-;;========== Key chords ==========
+;; ========== Key chords ==========
 (require 'key-chord)
 (key-chord-define-global "fk" 'smex)
 (key-chord-define-global "fj" ctl-x-map)
 (key-chord-mode +1)
+
+
+
