@@ -65,16 +65,35 @@
 ;; Enable Smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; Key chords 
-(require 'key-chord)
-(key-chord-define-global "fk" 'smex)
-(key-chord-define-global "fj" ctl-x-map)
-(key-chord-mode +1)
 ;; Redefine common keybindings to work smoothly with keychords
 (global-set-key (kbd "C-x f") 'find-file)
 (global-set-key (kbd "C-x C-f") 'set-fill-column)
 (global-set-key (kbd "C-x s") 'save-buffer)
 (global-set-key (kbd "C-x C-s") 'save-some-buffers)
+;; God mode
+(require 'god-mode)
+(global-set-key (kbd "<escape>") 'god-local-mode)
+(setq god-exempt-major-modes nil)
+(setq god-exempt-predicates nil)
+;; Update cursor when in god mode
+(defun my-update-cursor ()
+  (setq cursor-type (if (or god-local-mode buffer-read-only)
+                        'bar
+                      'box)))
+(add-hook 'god-mode-enabled-hook 'my-update-cursor)
+(add-hook 'god-mode-disabled-hook 'my-update-cursor)
+;; Use god mode in search and smex
+(require 'god-mode-isearch)
+(define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
+(define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
+(define-key god-local-mode-map (kbd "i") 'god-local-mode)
+(define-key god-local-mode-map (kbd ".") 'repeat)
+;; Key chords 
+(require 'key-chord)
+(key-chord-define-global "fk" 'smex)
+(key-chord-define-global "fj" ctl-x-map)
+(key-chord-define-global "jk" 'god-local-mode)
+(key-chord-mode +1)
 
 
 
@@ -87,6 +106,7 @@
 (add-hook 'haskell-mode-hook 'haskell-doc-mode)
 ;;This is the only useful shortcut not enabled out of the box
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
+
 
 
 
