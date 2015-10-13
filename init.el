@@ -99,7 +99,9 @@
 (setq mac-right-command-modifier 'control)
 
 
-;; ========== WindMove ==========
+;; ========== Window management ==========
+(global-set-key (kbd "C-x o") 'ace-window)
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 (windmove-default-keybindings)
 
 
