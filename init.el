@@ -72,7 +72,14 @@
 (global-set-key (kbd "C-x C-s") 'save-some-buffers)
 ;; God mode
 (require 'god-mode)
-(global-set-key (kbd "<escape>") 'god-local-mode)
+(defun my-god-mode-switch () (interactive)
+  "Make the switching only work from insert to god mode"     
+       (when (god-local-mode)
+         'god-local-mode)
+       )
+(define-key god-local-mode-map (kbd "i") 'god-local-mode)
+(define-key god-local-mode-map (kbd ".") 'repeat)
+(global-set-key (kbd "<escape>") 'my-god-mode-switch)
 (setq god-exempt-major-modes nil)
 (setq god-exempt-predicates nil)
 ;; Update cursor when in god mode
@@ -86,13 +93,11 @@
 (require 'god-mode-isearch)
 (define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
 (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
-(define-key god-local-mode-map (kbd "i") 'god-local-mode)
-(define-key god-local-mode-map (kbd ".") 'repeat)
 ;; Key chords 
 (require 'key-chord)
 (key-chord-define-global "fk" 'smex)
 (key-chord-define-global "fj" ctl-x-map)
-(key-chord-define-global "jk" 'god-local-mode)
+(key-chord-define-global "jk" 'my-god-mode-switch)
 (key-chord-mode +1)
 
 
