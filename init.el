@@ -70,6 +70,7 @@
 (global-set-key (kbd "C-x C-f") 'set-fill-column)
 (global-set-key (kbd "C-x s") 'save-buffer)
 (global-set-key (kbd "C-x C-s") 'save-some-buffers)
+(global-set-key (kbd "C-x c") 'save-buffers-kill-terminal)
 ;; God mode
 (require 'god-mode)
 (global-set-key (kbd "<escape>") 'god-local-mode)
