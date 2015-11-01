@@ -99,6 +99,7 @@
 (key-chord-define-global "fk" 'smex)
 (key-chord-define-global "fj" ctl-x-map)
 (key-chord-define-global "jk" 'my-god-mode-switch)
+(key-chord-define-global "jj" 'dabbrev-expand)
 (key-chord-mode +1)
 
 
