@@ -62,6 +62,7 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 (ido-ubiquitous-mode 1)
+(add-to-list 'ido-ignore-buffers "*")
 ;; Enable Smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
