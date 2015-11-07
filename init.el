@@ -115,7 +115,14 @@
 ;;This is the only useful shortcut not enabled out of the box
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 
+;; workaround until #754 is fixed
+(defun haskell-process-trigger-suggestions-ad (orig-fun &rest args)
+  (turn-off-haskell-doc)
+  (apply orig-fun args)
+  (turn-on-haskell-doc))
 
+(advice-add 'haskell-process-trigger-suggestions
+   :around #'haskell-process-trigger-suggestions-ad)
 
 
 
