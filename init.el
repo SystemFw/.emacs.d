@@ -46,8 +46,10 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; Use only spaces for indentatin
 (setq-default indent-tabs-mode nil) 
-;;Support Wheel Mouse Scrolling 
+;; Support Wheel Mouse Scrolling 
 (mouse-wheel-mode t)
+;; Show matching parentheses
+(show-paren-mode 1)
 
 ;; ========== Core usage ==========
 
@@ -63,6 +65,7 @@
 (ido-mode 1)
 (ido-ubiquitous-mode 1)
 (add-to-list 'ido-ignore-buffers "*")
+(add-to-list 'ido-ignore-files "\\.DS_Store")
 ;; Enable Smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
