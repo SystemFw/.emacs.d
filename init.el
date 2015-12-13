@@ -50,6 +50,8 @@
 (mouse-wheel-mode t)
 ;; Show matching parentheses
 (show-paren-mode 1)
+;; Insert matching parentheses
+(electric-pair-mode 1)
 
 ;; ========== Core usage ==========
 
