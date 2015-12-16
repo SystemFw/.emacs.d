@@ -25,7 +25,9 @@
 ;; Autosave Files in Specific directory
 (setq auto-save-file-name-transforms
       `((".*" ,"~/.emacs.d/autosaves/" t)))
-
+;; Save desktop and reload at startup
+(setq desktop-path '("~/.emacs.d/.desktop-saves/"))
+(desktop-save-mode 1)
 
 
 ;; ========== General Appearance and Settings==========
