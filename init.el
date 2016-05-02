@@ -70,8 +70,12 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 (ido-ubiquitous-mode 1)
+(ido-vertical-mode 1)
 (add-to-list 'ido-ignore-buffers "*")
 (add-to-list 'ido-ignore-files "\\.DS_Store")
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-use-faces nil)
 ;; Enable Smex
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
@@ -100,7 +104,7 @@
                       'box)))
 (add-hook 'god-mode-enabled-hook 'my-update-cursor)
 (add-hook 'god-mode-disabled-hook 'my-update-cursor)
-;; Use god mode in search and smex
+;; Use god mode in search 
 (require 'god-mode-isearch)
 (define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
 (define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
