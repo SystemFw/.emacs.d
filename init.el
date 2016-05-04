@@ -141,3 +141,9 @@
 ;; ========== Scala mode ==========
 (require 'ensime)
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+
+;; ========== Dired mode ==========
+;; if you open two dired buffers vertically
+;; copying/moving from one buffer will default
+;; to other as the target folder
+(setq dired-dwim-target t)
