@@ -1,1 +1,0 @@
-("~/.emacs.d/" "~/projects/scalaCalculator/" "~/projects/mcw3/" "~/projects/oldmcw/mobile-api/" "/usr/local/")
