@@ -58,6 +58,10 @@
 (show-paren-mode 1)
 ;; Insert matching parentheses
 (electric-pair-mode 1)
+;; overwrite selected text
+(delete-selection-mode t)
+;; newline at end of file
+(setq require-final-newline t)
 
 ;; ========== Core usage ==========
 
@@ -153,6 +157,3 @@
 
 ;; ========== Projectile ==========
 (projectile-global-mode)
-
-
-
