@@ -121,7 +121,6 @@
 
 
 ;; ========== Haskell mode ==========
-
 (require 'haskell-interactive-mode)
 (require 'haskell-process)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
@@ -145,7 +144,13 @@
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
 ;; ========== Dired mode ==========
-;; if you open two dired buffers vertically
-;; copying/moving from one buffer will default
-;; to other as the target folder
+;; if you open two buffers in the same frame
+;; copying/moving from one  will default
+;; to the other as the target folder
 (setq dired-dwim-target t)
+
+;; ========== Projectile ==========
+(projectile-global-mode)
+
+
+
