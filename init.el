@@ -38,6 +38,8 @@
 (setq inhibit-startup-message t) 
 ;; Disable the toolbar
 (tool-bar-mode -1)
+;; Disable alarms
+(setq ring-bell-function 'ignore)
 ;; Colour theme 
 (load-theme 'tango-dark t) 
 ;; Use line numbers globally
@@ -48,7 +50,7 @@
 (column-number-mode 1)
 ;;Prompt y or n instead of yes or no always.
 (fset 'yes-or-no-p 'y-or-n-p)
-;; Use only spaces for indentatin
+;; Use only spaces for indentation
 (setq-default indent-tabs-mode nil) 
 ;; Support Wheel Mouse Scrolling 
 (mouse-wheel-mode t)
