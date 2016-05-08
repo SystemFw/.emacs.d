@@ -65,7 +65,9 @@
 (setq mac-right-command-modifier 'control)
 ;; Window management
 (global-set-key (kbd "C-x o") 'ace-window)
+(setq aw-dispatch-always t)
 (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+(setq aw-background nil)
 (windmove-default-keybindings)
 ;; Enable Ido mode
 (setq ido-enable-flex-matching t)
