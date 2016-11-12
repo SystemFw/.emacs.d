@@ -1,161 +1,202 @@
-;; ========== Setup ==========
+;;; My Emacs configuration
+(setq user-full-name "Fabio Labella")
 
-;; Package list 
+;;; Package sources
 (require 'package)
+(setq package-enable-at-startup nil)
 (setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
-;; Load PATH from bash
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
-(exec-path-from-shell-copy-env "PS1")
-(exec-path-from-shell-copy-env "CELLAR")
 
+;;; Setup use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-;; ========== Backup and autosaves ==========
+(eval-when-compile
+  (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 
-;; Enable backup files.
-(setq make-backup-files t)
-;; Enable versioning with default values (keep five last versions, I think!)
-(setq version-control t)
-;; Delete old backup versions
-(setq delete-old-versions t)
-;; Save all backup file in this directory.
-(setq backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
-;; Autosave Files in Specific directory
-(setq auto-save-file-name-transforms
-      `((".*" ,"~/.emacs.d/autosaves/" t)))
-;; Save desktop and reload at startup
-(setq desktop-path '("~/.emacs.d/.desktop-saves/"))
-(desktop-save-mode -1)
+;;; Disable clutter
+(setq inhibit-startup-message t
+      inhibit-splash-screen t
+      ring-bell-function 'ignore)
 
+;;; Backups, autosaves, and desktop saves
+(setq make-backup-files t
+      version-control t
+      delete-old-versions t
+      backup-directory-alist '((".*" . "~/.emacs.d/backups/")))
+(setq auto-save-file-name-transforms `((".*" ,"~/.emacs.d/autosaves/" t)))
+(use-package desktop
+  :init
+  (setq desktop-path '("~/.emacs.d/.desktop-saves/"))
+  (desktop-save-mode -1))
 
-;; ========== General Appearance and Settings==========
+;;; Mac specific settings
+(when (eq system-type 'darwin)
+  (setq mac-right-command-modifier 'control)
+  ;; on a Mac, don't complain about setting variables in .bashrc instead of .bash_profile
+  (setq exec-path-from-shell-check-startup-files nil))
+(use-package exec-path-from-shell ;; load path from bash
+  :ensure t
+  :if (and (eq system-type 'darwin) (display-graphic-p))
+  :config
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "PS1")
+  (exec-path-from-shell-copy-env "CELLAR"))
 
-;; Inhibit startup message 
-(setq inhibit-startup-message t) 
-;; Disable the toolbar
+;;; General settings
+(setq-default indent-tabs-mode nil) ;; Indent with no tabs
+(delete-selection-mode t) ;; Overwrite selected text
+(setq require-final-newline t) ;; Newline at the end of files
+(fset 'yes-or-no-p 'y-or-n-p) ;; Use y or n instead of yes and no
+(mouse-wheel-mode t) ;; Enable scrolling
+
+;;; Appearance
+(load-theme 'tango-dark t) ;; Colour Theme
+(global-linum-mode t) ;; Show line numbers
+(line-number-mode t) ;; Line numbers in mode line
+(column-number-mode t) ;; Column numbers in mode line
 (tool-bar-mode -1)
-;; Disable alarms
-(setq ring-bell-function 'ignore)
-;; Colour theme 
-(load-theme 'tango-dark t) 
-;; Use line numbers globally
-(global-linum-mode t)
-;; Show line-number in the mode line
-(line-number-mode 1)
-;; Show column-number in the mode line
-(column-number-mode 1)
-;;Prompt y or n instead of yes or no always.
-(fset 'yes-or-no-p 'y-or-n-p)
-;; Use only spaces for indentation
-(setq-default indent-tabs-mode nil) 
-;; Support Wheel Mouse Scrolling 
-(mouse-wheel-mode t)
-;; Show matching parentheses
-(show-paren-mode 1)
-;; Insert matching parentheses
-(electric-pair-mode 1)
-;; overwrite selected text
-(delete-selection-mode t)
-;; newline at end of file
-(setq require-final-newline t)
 
-;; ========== Core usage ==========
+;;; Frame management
+(use-package ace-window ;; quick jump to frames and more
+  :ensure t
+  :bind ("C-x o" . ace-window)
+  :config
+  (setq aw-dispatch-always t)
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+  (setq aw-background nil))
+(winner-mode t) ;; undo-redo frame configuration
+(windmove-default-keybindings) ;; use shift-arrow to move between frames
 
-;; Set Right Command as Ctrl 
-(setq mac-right-command-modifier 'control)
-;; Window management
-(global-set-key (kbd "C-x o") 'ace-window)
-(setq aw-dispatch-always t)
-(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-(setq aw-background nil)
-(windmove-default-keybindings)
-(winner-mode 1)
-;; Enable Ido mode
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
-(ido-ubiquitous-mode 1)
-(ido-vertical-mode 1)
-(setq ido-vertical-define-keys 'C-n-C-p)
-(add-to-list 'ido-ignore-buffers "*")
-(add-to-list 'ido-ignore-files "\\.DS_Store")
-(flx-ido-mode 1)
-;; disable ido faces to see flx highlights.
-(setq ido-use-faces nil)
-;; Enable Smex
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; Redefine common keybindings to work smoothly with keychords
-(global-set-key (kbd "C-x f") 'find-file)
-(global-set-key (kbd "C-x C-f") 'set-fill-column)
-(global-set-key (kbd "C-x s") 'save-buffer)
-(global-set-key (kbd "C-x C-s") 'save-some-buffers)
-(global-set-key (kbd "C-x c") 'save-buffers-kill-terminal)
-;; God mode
-(require 'god-mode)
-(defun my-god-mode-switch () (interactive)
-  "Make the switching only work from insert to god mode"     
-       (when (god-local-mode)
-         'god-local-mode)
-       )
-(define-key god-local-mode-map (kbd "i") 'god-local-mode)
-(define-key god-local-mode-map (kbd ".") 'repeat)
-(global-set-key (kbd "<escape>") 'my-god-mode-switch)
-(setq god-exempt-major-modes nil)
-(setq god-exempt-predicates nil)
-;; Update cursor when in god mode
-(defun my-update-cursor ()
-  (setq cursor-type (if (or god-local-mode buffer-read-only)
-                        'bar
-                      'box)))
-(add-hook 'god-mode-enabled-hook 'my-update-cursor)
-(add-hook 'god-mode-disabled-hook 'my-update-cursor)
-;; Use god mode in search 
-(require 'god-mode-isearch)
-(define-key isearch-mode-map (kbd "<escape>") 'god-mode-isearch-activate)
-(define-key god-mode-isearch-map (kbd "<escape>") 'god-mode-isearch-disable)
-;; Key chords 
-(require 'key-chord)
-(key-chord-define-global "fk" 'smex)
-(key-chord-define-global "fj" ctl-x-map)
-(key-chord-define-global "jk" 'my-god-mode-switch)
-(key-chord-define-global "jj" 'dabbrev-expand)
-(key-chord-mode +1)
+;;; Modal editing
+(use-package key-chord
+  :ensure t
+  :bind (("C-x f" . find-file)
+         ("C-x C-f" . set-fill-column)
+         ("C-x s" . save-buffer)
+         ("C-x C-s" . save-some-buffers)
+         ("C-x c" . save-buffers-kill-terminal))
+  :init
+  (key-chord-mode t)
+  :config
+  (key-chord-define-global "fj" ctl-x-map)
+  (key-chord-define-global "jj" 'dabbrev-expand))
+(use-package use-package-chords
+  :ensure t)
+(use-package god-mode
+  :ensure t
+  :init (require' god-mode-isearch)
+  :bind (("<escape>" . my-god-mode-switch)
+         :map god-local-mode-map
+         ("i" . god-local-mode)
+         ("." . repeat)
+         :map isearch-mode-map
+         ("<escape>" . god-mode-isearch-activate)
+         :map god-mode-isearch-map
+         ("<escape>" . god-mode-isearch-disable))
+  :chords ("jk" . my-god-mode-switch)
+  :config
+  (defun my-god-mode-switch ()
+    (interactive)
+    "Make the switching only work from insert to god mode"
+    (when (god-local-mode)
+      'god-local-mode))
+  (defun my-update-cursor ()
+    "Change cursor shape in god mode"
+    (setq cursor-type (if (or god-local-mode buffer-read-only)
+                          'bar
+                        'box)))
+  (add-hook 'god-mode-enabled-hook 'my-update-cursor)
+  (add-hook 'god-mode-disabled-hook 'my-update-cursor)
+  (setq god-exempt-major-modes nil)
+  (setq god-exempt-predicates nil))
 
+;;; General completion interface based on Ido
+(use-package ido
+  :ensure t
+  :config
+  (setq ido-enable-flex-matching t
+        ido-everywhere t)
+ (add-to-list 'ido-ignore-buffers "*")
+ (add-to-list 'ido-ignore-files "\\.DS_Store")
+ (ido-mode t))
+(use-package ido-ubiquitous
+  :ensure t
+  :config
+  (ido-ubiquitous-mode t))
+(use-package flx-ido
+  :ensure t
+  :config
+  (setq ido-use-faces nil) ;; disable ido faces to see flx highlights.
+  (flx-ido-mode t))
+(use-package ido-vertical-mode
+  :ensure t
+  :config
+  (setq ido-vertical-define-keys 'C-n-C-p)
+  (ido-vertical-mode t))
+(use-package smex
+  :ensure t
+  :bind (("M-x" . smex)
+         ("M-X" . smex-major-mode-commands))
+  :chords ("fk"  . smex))
 
+;;; File and Project Management
+(use-package dired
+  :config
+  (setq dired-dwim-target t) ;; allows copying between two open dired buffers automatically
+  (setq dired-recursive-deletes 'always)
+  (setq dired-recursive-copies 'always)
+  (require 'dired-x)) ;; dired jump to dir of current buffer
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode t))
 
-;; ========== Haskell mode ==========
-(require 'haskell-interactive-mode)
-(require 'haskell-process)
-(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-(add-hook 'haskell-mode-hook 'haskell-doc-mode)
-;;This is the only useful shortcut not enabled out of the box
-(define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
+;;; Parentheses
+(show-paren-mode t) ;; Show matching parentheses
+(electric-pair-mode t) ;; Insert matching parentheses
 
-;; workaround until #754 is fixed
-(defun haskell-process-trigger-suggestions-ad (orig-fun &rest args)
-  (turn-off-haskell-doc)
-  (apply orig-fun args)
-  (turn-on-haskell-doc))
+;;; Json
+(use-package json
+  :ensure t)
 
-(advice-add 'haskell-process-trigger-suggestions
-   :around #'haskell-process-trigger-suggestions-ad)
+;;; Yaml
+(use-package yaml-mode
+  :ensure t)
 
+;;; Markdown
+(use-package markdown-mode
+  :ensure t)
 
-;; ========== Scala mode ==========
-(require 'ensime)
-(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+;;; Version control
+(use-package magit ;; Awesome Git porcelain
+  :ensure t)
 
-;; ========== Dired mode ==========
-;; if you open two buffers in the same frame
-;; copying/moving from one  will default
-;; to the other as the target folder
-(setq dired-dwim-target t)
+;;; Latex
+(use-package tex
+  :ensure auctex ;; (use-package auctex :ensure t) does not work with :defer
+  :defer t
+  :config
+  (setq TeX-auto-save t
+        TeX-parse-self t)
+  (setq-default TeX-master nil))
 
-;; ========== Projectile ==========
-(projectile-global-mode)
+;;; Scala
+(use-package ensime
+  :ensure t
+  :pin melpa-stable)
+
+;;; Haskell
+(use-package haskell-mode
+  :ensure t
+  :config
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+  (add-hook 'haskell-mode-hook 'haskell-doc-mode)
+  :bind ("C-`" . haskell-interactive-bring))

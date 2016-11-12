@@ -1,10 +1,3 @@
-auto-save-list/
-backups/
-games/
-ido.last
-autosaves/
-/ensime/classpath_2.11.6_0.9.10-SNAPSHOT
-/ensime/classpath_2.11.7_0.9.10-SNAPSHOT
-/tramp
-.desktop-saves/
-projectile-bookmarks.eld
+*
+!.gitignore
+!init.el
