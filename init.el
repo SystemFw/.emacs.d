@@ -185,7 +185,28 @@
   :config
   (setq TeX-auto-save t
         TeX-parse-self t)
-  (setq-default TeX-master nil))
+  (setq-default TeX-master nil)
+    ;; Inserting fonts in Auctex is done via C-c C-f which calls an
+  ;; interactive function parameterised by a map of characters (all
+  ;; prefixed with C-).  This doesn't work with God-mode, which always
+  ;; sends non-prefixed characters to interactive functions, even if
+  ;; you're in command-mode. To make font insertion work with God-mode
+  ;; I therefore extend the map with the equivalent non prefixed keys.
+  (require 'latex) ;; to get LaTeX-font-list standard value
+  (cl-labels ((strip-prefix (TeX-font-list-entry)
+                            (destructuring-bind
+                                (keybinding . rest)
+                                TeX-font-list-entry
+                              (cons (+ ?a (- keybinding 1)) rest)))
+              (get-default (custom-var-symbol)
+                           (eval (car (get custom-var-symbol 'standard-value))))
+              (add-stripped (keybindings)
+                            (let ((existing-keybindings (get-default keybindings)))
+                              (append
+                               existing-keybindings
+                               (mapcar (function strip-prefix) existing-keybindings)))))
+    (customize-set-variable 'LaTeX-font-list (add-stripped 'LaTeX-font-list))
+    (customize-set-variable 'TeX-font-list (add-stripped 'TeX-font-list))))
 
 ;;; Scala
 (use-package ensime
