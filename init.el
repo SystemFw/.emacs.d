@@ -85,8 +85,7 @@
   :init
   (key-chord-mode t)
   :config
-  (key-chord-define-global "fj" ctl-x-map)
-  (key-chord-define-global "jj" 'dabbrev-expand))
+  (key-chord-define-global "fj" ctl-x-map))
 (use-package use-package-chords
   :ensure t)
 (use-package god-mode
@@ -170,6 +169,12 @@
 ;;; Parentheses
 (show-paren-mode t) ;; Show matching parentheses
 (electric-pair-mode t) ;; Insert matching parentheses
+
+;;; Complete unfinished words
+(use-package hippie-exp
+  :ensure t
+  :chords ("jj" . hippie-expand))
+
 
 ;;; Json
 (use-package json
