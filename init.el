@@ -92,21 +92,30 @@
 (use-package god-mode
   :ensure t
   :init (require' god-mode-isearch)
-  :bind (("<escape>" . god-mode-custom-switch)
+  :bind (("<escape>" . god-mode-on)
          :map god-local-mode-map
-         ("i" . god-local-mode)
+         ("i" . god-mode-off)
          ("." . repeat)
          :map isearch-mode-map
          ("<escape>" . god-mode-isearch-activate)
          :map god-mode-isearch-map
          ("<escape>" . god-mode-isearch-disable))
-  :chords ("jk" . god-mode-custom-switch)
+  :chords ("jk" . god-mode-on)
   :config
-  (defun god-mode-custom-switch ()
+  (defun god-mode-on ()
     (interactive)
-    "Make the switching only work from insert to god mode"
+    "Activate God mode if the buffer is in insert mode.
+     Keep it active if the buffer is in God mode"
     (when (god-local-mode)
       'god-local-mode))
+  (defun god-mode-off ()
+    (interactive)
+    "Turn God mode off silently. Using the minor mode toggle prints a
+     message in the minibuffer, which is annoying when you are using
+     God-mode there. Also, that message is useless given the nature of
+     this mode (constantly on/off, different cursor)"
+    (god-local-mode -1)
+    (run-hooks 'god-mode-disabled-hook))
   (defun god-mode-custom-update-cursor ()
     "Change cursor shape in god mode"
     (setq cursor-type (if (or god-local-mode buffer-read-only)
@@ -227,7 +236,6 @@
   (defun latex-preview-pane-stop-preview ()
     (interactive)
     (when (bound-and-true-p latex-preview-pane-mode)
-    ;;(latex-preview-pane-mode nil) enables the mode, -1 is required
     (latex-preview-pane-mode -1))))
 
 ;;; Scala
