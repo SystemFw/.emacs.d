@@ -181,8 +181,8 @@
 ;;; Better undo
 (use-package undo-tree
   :ensure t
-  :bind ("C-x u" . undo-tree-visualize)  ;; undo-tree has this binding in a local keymap only
-  :config                                ;; causing issues with keychords
+  :bind ("C-x u" . undo-tree-visualize)  ;; undo-tree has this binding in a local
+  :config                                ;; keymap only, causing issues with keychords
   (global-undo-tree-mode t))
 
 ;;; Latex
