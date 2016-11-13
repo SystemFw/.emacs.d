@@ -92,7 +92,7 @@
 (use-package god-mode
   :ensure t
   :init (require' god-mode-isearch)
-  :bind (("<escape>" . my-god-mode-switch)
+  :bind (("<escape>" . god-mode-custom-switch)
          :map god-local-mode-map
          ("i" . god-local-mode)
          ("." . repeat)
@@ -100,20 +100,20 @@
          ("<escape>" . god-mode-isearch-activate)
          :map god-mode-isearch-map
          ("<escape>" . god-mode-isearch-disable))
-  :chords ("jk" . my-god-mode-switch)
+  :chords ("jk" . god-mode-custom-switch)
   :config
-  (defun my-god-mode-switch ()
+  (defun god-mode-custom-switch ()
     (interactive)
     "Make the switching only work from insert to god mode"
     (when (god-local-mode)
       'god-local-mode))
-  (defun my-update-cursor ()
+  (defun god-mode-custom-update-cursor ()
     "Change cursor shape in god mode"
     (setq cursor-type (if (or god-local-mode buffer-read-only)
                           'bar
                         'box)))
-  (add-hook 'god-mode-enabled-hook 'my-update-cursor)
-  (add-hook 'god-mode-disabled-hook 'my-update-cursor)
+  (add-hook 'god-mode-enabled-hook 'god-mode-custom-update-cursor)
+  (add-hook 'god-mode-disabled-hook 'god-mode-custom-update-cursor)
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil))
 
