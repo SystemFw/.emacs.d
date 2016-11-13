@@ -188,12 +188,14 @@
 ;;; Latex
 (use-package tex
   :ensure auctex ;; (use-package auctex :ensure t) does not work with :defer
-  :defer t
+  :bind (:map LaTeX-mode-map
+              ("M-p" . latex-preview-pane-start-preview)
+              ("C-q" . latex-preview-pane-stop-preview))
   :config
   (setq TeX-auto-save t
         TeX-parse-self t)
   (setq-default TeX-master nil)
-    ;; Inserting fonts in Auctex is done via C-c C-f which calls an
+  ;; Inserting fonts in Auctex is done via C-c C-f which calls an
   ;; interactive function parameterised by a map of characters (all
   ;; prefixed with C-).  This doesn't work with God-mode, which always
   ;; sends non-prefixed characters to interactive functions, even if
@@ -214,6 +216,19 @@
                                (mapcar (function strip-prefix) existing-keybindings)))))
     (customize-set-variable 'LaTeX-font-list (add-stripped 'LaTeX-font-list))
     (customize-set-variable 'TeX-font-list (add-stripped 'TeX-font-list))))
+(use-package latex-preview-pane
+  :ensure t
+  :config
+  (defun latex-preview-pane-start-preview ()
+    (interactive)
+    (unless (bound-and-true-p latex-preview-pane-mode)
+      (latex-preview-pane-mode)
+      (message "Preview on save started. C-q to stop")))
+  (defun latex-preview-pane-stop-preview ()
+    (interactive)
+    (when (bound-and-true-p latex-preview-pane-mode)
+    ;;(latex-preview-pane-mode nil) enables the mode, -1 is required
+    (latex-preview-pane-mode -1))))
 
 ;;; Scala
 (use-package ensime
