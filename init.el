@@ -33,7 +33,7 @@
 (setq auto-save-file-name-transforms `((".*" ,"~/.emacs.d/autosaves/" t)))
 (use-package desktop
   :init
-  (setq desktop-path '("~/.emacs.d/.desktop-saves/"))
+  (setq desktop-path '("~/.emacs.d/desktop-saves/"))
   (desktop-save-mode -1))
 
 ;;; Mac specific settings
