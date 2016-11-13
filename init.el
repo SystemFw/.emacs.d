@@ -154,7 +154,7 @@
          ("M-X" . smex-major-mode-commands))
   :chords ("fk"  . smex))
 
-;;; File and Project Management
+;;; File, Buffer, and Project Management
 (use-package dired
   :config
   (setq dired-dwim-target t) ;; allows copying between two open dired buffers automatically
@@ -165,6 +165,9 @@
   :ensure t
   :config
   (projectile-mode t))
+(use-package ibuffer
+  :ensure t
+  :bind ("C-x C-b" . ibuffer))
 
 ;;; Parentheses
 (show-paren-mode t) ;; Show matching parentheses
@@ -174,7 +177,6 @@
 (use-package hippie-exp
   :ensure t
   :chords ("jj" . hippie-expand))
-
 
 ;;; Json
 (use-package json
