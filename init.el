@@ -74,6 +74,21 @@
 (winner-mode t) ;; undo-redo frame configuration
 (windmove-default-keybindings) ;; use shift-arrow to move between frames
 
+;;; File, Buffer, and Project Management
+(use-package dired
+  :config
+  (setq dired-dwim-target t) ;; allows copying between two open dired buffers automatically
+  (setq dired-recursive-deletes 'always)
+  (setq dired-recursive-copies 'always)
+  (require 'dired-x)) ;; dired jump to dir of current buffer
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode t))
+(use-package ibuffer
+  :ensure t
+  :bind ("C-x C-b" . ibuffer))
+
 ;;; Modal editing
 (use-package key-chord
   :ensure t
@@ -154,29 +169,19 @@
          ("M-X" . smex-major-mode-commands))
   :chords ("fk"  . smex))
 
-;;; File, Buffer, and Project Management
-(use-package dired
-  :config
-  (setq dired-dwim-target t) ;; allows copying between two open dired buffers automatically
-  (setq dired-recursive-deletes 'always)
-  (setq dired-recursive-copies 'always)
-  (require 'dired-x)) ;; dired jump to dir of current buffer
-(use-package projectile
+;;; Quick jump to words
+(use-package avy
   :ensure t
-  :config
-  (projectile-mode t))
-(use-package ibuffer
-  :ensure t
-  :bind ("C-x C-b" . ibuffer))
-
-;;; Parentheses
-(show-paren-mode t) ;; Show matching parentheses
-(electric-pair-mode t) ;; Insert matching parentheses
+  :chords ("jj" . avy-goto-word-1))
 
 ;;; Complete unfinished words
 (use-package hippie-exp
   :ensure t
-  :chords ("jj" . hippie-expand))
+  :bind ("C-x j" . hippie-expand))
+
+;;; Parentheses
+(show-paren-mode t) ;; Show matching parentheses
+(electric-pair-mode t) ;; Insert matching parentheses
 
 ;;; Json
 (use-package json
