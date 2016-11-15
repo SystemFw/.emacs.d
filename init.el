@@ -172,12 +172,12 @@
 ;;; Quick jump to words
 (use-package avy
   :ensure t
-  :chords ("jj" . avy-goto-word-1))
+  :chords ("fd" . avy-goto-word-1))
 
 ;;; Complete unfinished words
 (use-package hippie-exp
   :ensure t
-  :bind ("C-x j" . hippie-expand))
+  :chords ("jj" . hippie-expand))
 
 ;;; Parentheses
 (show-paren-mode t) ;; Show matching parentheses
