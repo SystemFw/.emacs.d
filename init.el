@@ -26,15 +26,22 @@
       ring-bell-function 'ignore)
 
 ;;; Backups, autosaves, and desktop saves
-(setq make-backup-files t
+(let ((backup-dir "~/.emacs.d/backups/")
+      (save-file-dir "~/.emacs.d/autosaves/")
+      (desktop-dir "~/.emacs.d/desktop-saves/")
+      (create-dir-if-nonexistent (lambda (dir-name)
+                                   (unless (file-exists-p dir-name)
+                                     (make-directory dir-name)))))
+  (mapcar create-dir-if-nonexistent `(,backup-dir ,save-file-dir ,desktop-dir))
+  (setq make-backup-files t
       version-control t
       delete-old-versions t
-      backup-directory-alist '((".*" . "~/.emacs.d/backups/")))
-(setq auto-save-file-name-transforms `((".*" ,"~/.emacs.d/autosaves/" t)))
-(use-package desktop
+      backup-directory-alist `((".*" . ,backup-dir)))           
+  (setq auto-save-file-name-transforms `((".*" ,save-file-dir t)))
+  (use-package desktop
   :init
-  (setq desktop-path '("~/.emacs.d/desktop-saves/"))
-  (desktop-save-mode -1))
+  (setq desktop-path `(,desktop-dir))
+  (desktop-save-mode -1)))
 
 ;;; Mac specific settings
 (when (eq system-type 'darwin)
