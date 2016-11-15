@@ -62,6 +62,7 @@
 (setq require-final-newline t) ;; Newline at the end of files
 (fset 'yes-or-no-p 'y-or-n-p) ;; Use y or n instead of yes and no
 (mouse-wheel-mode t) ;; Enable scrolling
+(put 'narrow-to-region 'disabled nil) ;; Enable narrowing
 
 ;;; Appearance
 (line-number-mode t) ;; Line numbers in mode line
