@@ -1,7 +1,10 @@
-;;; My Emacs configuration
+;;;;  * My Emacs configuration
 (setq user-full-name "Fabio Labella")
-
-;;; Package sources
+(add-hook 'emacs-lisp-mode-hook '(lambda ()
+                                   "You can fold this file as an Org buffer"
+                                   (setq-local orgstruct-heading-prefix-regexp ";;;;  ")
+                                   (turn-on-orgstruct)))
+;;;;  * Package sources
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
@@ -10,7 +13,7 @@
                          ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
 
-;;; Setup use-package
+;;;;  * Setup use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -20,12 +23,12 @@
 (require 'diminish)
 (require 'bind-key)
 
-;;; Disable clutter
+;;;;  * Disable clutter
 (setq inhibit-startup-message t
       inhibit-splash-screen t
       ring-bell-function 'ignore)
 
-;;; Backups, autosaves, and desktop saves
+;;;;  * Backups, autosaves, and desktop saves
 (let ((backup-dir "~/.emacs.d/backups/")
       (save-file-dir "~/.emacs.d/autosaves/")
       (desktop-dir "~/.emacs.d/desktop-saves/")
@@ -43,7 +46,7 @@
   (setq desktop-path `(,desktop-dir))
   (desktop-save-mode -1)))
 
-;;; Mac specific settings
+;;;;  * Mac specific settings
 (when (eq system-type 'darwin)
   (setq mac-right-command-modifier 'control)
   ;; on a Mac, don't complain about setting variables in .bashrc instead of .bash_profile
@@ -56,7 +59,7 @@
   (exec-path-from-shell-copy-env "PS1")
   (exec-path-from-shell-copy-env "CELLAR"))
 
-;;; General settings
+;;;;  * General settings
 (setq-default indent-tabs-mode nil) ;; Indent with no tabs
 (delete-selection-mode t) ;; Overwrite selected text
 (setq require-final-newline t) ;; Newline at the end of files
@@ -64,7 +67,7 @@
 (mouse-wheel-mode t) ;; Enable scrolling
 (put 'narrow-to-region 'disabled nil) ;; Enable narrowing
 
-;;; Appearance
+;;;;  * Appearance
 (line-number-mode t) ;; Line numbers in mode line
 (column-number-mode t) ;; Column numbers in mode line
 (tool-bar-mode -1)
@@ -101,7 +104,7 @@
   (call-interactively 'load-theme))
 (enable-theme 'planet)
 
-;;; Frame management
+;;;;  * Frame management
 (use-package ace-window ;; quick jump to frames and more
   :ensure t
   :bind ("C-x o" . ace-window)
@@ -112,7 +115,7 @@
 (winner-mode t) ;; undo-redo frame configuration
 (windmove-default-keybindings) ;; use shift-arrow to move between frames
 
-;;; File, Buffer, and Project Management
+;;;;  * File, Buffer, and Project Management
 (use-package dired
   :config
   (setq dired-dwim-target t) ;; allows copying between two open dired buffers automatically
@@ -127,7 +130,7 @@
   :ensure t
   :bind ("C-x C-b" . ibuffer))
 
-;;; Modal editing
+;;;;  * Modal editing
 (use-package key-chord
   :ensure t
   :bind (("C-x f" . find-file)
@@ -178,7 +181,7 @@
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil))
 
-;;; General completion interface based on Ido
+;;;;  * General completion interface based on Ido
 (use-package ido
   :ensure t
   :config
@@ -207,7 +210,7 @@
          ("M-X" . smex-major-mode-commands))
   :chords ("fk"  . smex))
 
-;;; Quick jump to everywhere in current window
+;;;;  * Quick jump to everywhere in current window
 (use-package avy
   :ensure t
   :chords ("kk" . avy-goto-char-timer)
@@ -215,39 +218,39 @@
   (avy-setup-default)
   (customize-set-variable 'avy-timeout-seconds 0.2))
 
-;;; Complete unfinished words
+;;;;  * Complete unfinished words
 (use-package hippie-exp
   :ensure t
   :chords ("jj" . hippie-expand))
 
-;;; Parentheses
+;;;;  * Parentheses
 (show-paren-mode t) ;; Show matching parentheses
 (electric-pair-mode t) ;; Insert matching parentheses
 
-;;; Json
+;;;;  * Json
 (use-package json
   :ensure t)
 
-;;; Yaml
+;;;;  * Yaml
 (use-package yaml-mode
   :ensure t)
 
-;;; Markdown
+;;;;  * Markdown
 (use-package markdown-mode
   :ensure t)
 
-;;; Version control
+;;;;  * Version control
 (use-package magit ;; Awesome Git porcelain
   :ensure t)
 
-;;; Better undo
+;;;;  * Better undo
 (use-package undo-tree
   :ensure t
   :bind ("C-x u" . undo-tree-visualize)  ;; undo-tree has this binding in a local
   :config                                ;; keymap only, causing issues with keychords
   (global-undo-tree-mode t))
 
-;;; Latex
+;;;;  * Latex
 (use-package tex
   :ensure auctex ;; (use-package auctex :ensure t) does not work with :defer
   :bind (:map LaTeX-mode-map
@@ -291,12 +294,12 @@
     (when (bound-and-true-p latex-preview-pane-mode)
     (latex-preview-pane-mode -1))))
 
-;;; Scala
+;;;;  * Scala
 (use-package ensime
   :ensure t
   :pin melpa-stable)
 
-;;; Haskell
+;;;;  * Haskell
 (use-package haskell-mode
   :ensure t
   :config
@@ -305,6 +308,6 @@
   (add-hook 'haskell-mode-hook 'haskell-doc-mode)
   :bind ("C-`" . haskell-interactive-bring))
 
-;;; Rest
+;;;;  * Rest
 (use-package restclient
   :ensure t)
