@@ -304,3 +304,7 @@
   (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
   (add-hook 'haskell-mode-hook 'haskell-doc-mode)
   :bind ("C-`" . haskell-interactive-bring))
+
+;;; Rest
+(use-package restclient
+  :ensure t)
