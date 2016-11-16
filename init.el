@@ -207,10 +207,13 @@
          ("M-X" . smex-major-mode-commands))
   :chords ("fk"  . smex))
 
-;;; Quick jump to words
+;;; Quick jump to everywhere in current window
 (use-package avy
   :ensure t
-  :chords ("fd" . avy-goto-word-1))
+  :chords ("kk" . avy-goto-char-timer)
+  :config
+  (avy-setup-default)
+  (customize-set-variable 'avy-timeout-seconds 0.2))
 
 ;;; Complete unfinished words
 (use-package hippie-exp
