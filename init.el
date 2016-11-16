@@ -36,7 +36,7 @@
   (setq make-backup-files t
       version-control t
       delete-old-versions t
-      backup-directory-alist `((".*" . ,backup-dir)))           
+      backup-directory-alist `((".*" . ,backup-dir)))
   (setq auto-save-file-name-transforms `((".*" ,save-file-dir t)))
   (use-package desktop
   :init
@@ -99,7 +99,7 @@
   (interactive)
   (mapcar 'disable-theme custom-enabled-themes)
   (call-interactively 'load-theme))
-(enable-theme planet t)
+(enable-theme 'planet)
 
 ;;; Frame management
 (use-package ace-window ;; quick jump to frames and more
