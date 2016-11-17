@@ -12,6 +12,7 @@
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")))
 (package-initialize)
+(setq load-prefer-newer t) ;; don't load outdated bytecode
 
 ;;;;  * Setup use-package
 (unless (package-installed-p 'use-package)
