@@ -30,17 +30,18 @@
       ring-bell-function 'ignore)
 
 ;;;;  * Backups, autosaves, and desktop saves
-(let ((backup-dir "~/.emacs.d/backups/")
-      (save-file-dir "~/.emacs.d/autosaves/")
-      (desktop-dir "~/.emacs.d/desktop-saves/")
+(let ((backup-dir "backups")
+      (save-file-dir "autosaves")
+      (desktop-dir "desktop-saves")
       (create-dir-if-nonexistent (lambda (dir-name)
-                                   (unless (file-exists-p dir-name)
-                                     (make-directory dir-name)))))
+                                   (let ((dir-path (expand-file-name dir-name user-emacs-directory)))
+                                     (unless (file-exists-p dir-name)
+                                       (make-directory dir-name))))))
   (mapcar create-dir-if-nonexistent `(,backup-dir ,save-file-dir ,desktop-dir))
   (setq make-backup-files t
-      version-control t
-      delete-old-versions t
-      backup-directory-alist `((".*" . ,backup-dir)))
+        version-control t
+        delete-old-versions t
+        backup-directory-alist `((".*" . ,backup-dir)))
   (setq auto-save-file-name-transforms `((".*" ,save-file-dir t)))
   (use-package desktop
   :init
