@@ -218,9 +218,12 @@
   :chords ("jj" . hippie-expand))
 
 ;;;;  * Parentheses
-(show-paren-mode t) ;; Show matching parentheses
-(electric-pair-mode t) ;; Insert matching parentheses
-
+(use-package smartparens
+  :ensure t
+  :config
+  (setq sp-highlight-pair-overlay nil) ;; Don't highlight current sexp
+  (smartparens-global-mode t)
+  (show-smartparens-global-mode t))
 ;;;;  * File, Buffer, and Project Management
 (use-package dired
   :config
