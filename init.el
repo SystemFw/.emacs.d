@@ -14,7 +14,7 @@
 (package-initialize)
 (setq load-prefer-newer t) ;; don't load outdated bytecode
 
-;;;;  * Setup use-package
+;;;;  * Set up use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -183,7 +183,7 @@
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil))
 
-;;;;  * General completion interface based on Ido
+;;;;  * General completion interface
 (use-package ido
   :ensure t
   :config
@@ -212,7 +212,7 @@
          ("M-X" . smex-major-mode-commands))
   :chords ("fk"  . smex))
 
-;;;;  * Quick jump to everywhere in current window
+;;;;  * Quick movement
 (use-package avy
   :ensure t
   :chords ("kk" . avy-goto-char-timer)
@@ -220,7 +220,7 @@
   (avy-setup-default)
   (customize-set-variable 'avy-timeout-seconds 0.2))
 
-;;;;  * Complete unfinished words
+;;;;  * Autocompletion
 (use-package hippie-exp
   :ensure t
   :chords ("jj" . hippie-expand))
