@@ -72,7 +72,7 @@
 (line-number-mode t) ;; Line numbers in mode line
 (column-number-mode t) ;; Column numbers in mode line
 (mouse-wheel-mode t) ;; Enable scrolling
-(scroll-bar-mode -1) 
+(scroll-bar-mode -1)
 (tool-bar-mode -1)
 (use-package solarized-theme ;; + Blended fringe  - Pervasive shitty pea green
   :ensure t
@@ -206,8 +206,10 @@
 ;;;;  * Better undo
 (use-package undo-tree
   :ensure t
-  :bind ("C-x u" . undo-tree-visualize)  ;; undo-tree has this binding in a local
-  :config                                ;; keymap only, causing issues with keychords
+  :bind (("C-/" . undo-tree-undo)         ;; undo-tree has these bindings in a local
+         ("C-?" . undo-tree-redo)         ;; keymap only, causing various issues
+         ("C-x u" . undo-tree-visualize))
+  :config
   (global-undo-tree-mode t))
 
 ;;;;  * Autocompletion
