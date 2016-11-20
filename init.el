@@ -203,6 +203,8 @@
 (winner-mode t) ;; undo-redo frame configuration
 (windmove-default-keybindings) ;; use shift-arrow to move between frames
 
+;;;;  * Minibuffer
+;; silence messages in minibuffer when editing it
 ;;;;  * Better undo
 (use-package undo-tree
   :ensure t
