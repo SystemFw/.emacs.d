@@ -190,7 +190,7 @@
   :chords ("kk" . avy-goto-char-timer)
   :config
   (avy-setup-default)
-  (customize-set-variable 'avy-timeout-seconds 0.2))
+  (setq avy-timeout-seconds 0.2))
 
 ;;;;  * Frame management
 (use-package ace-window ;; quick jump to frames and more
@@ -283,8 +283,8 @@
                               (append
                                existing-keybindings
                                (mapcar (function strip-prefix) existing-keybindings)))))
-    (customize-set-variable 'LaTeX-font-list (add-stripped 'LaTeX-font-list))
-    (customize-set-variable 'TeX-font-list (add-stripped 'TeX-font-list))))
+    (setq LaTeX-font-list (add-stripped 'LaTeX-font-list))
+    (setq TeX-font-list (add-stripped 'TeX-font-list))))
 (use-package latex-preview-pane
   :ensure t
   :config
