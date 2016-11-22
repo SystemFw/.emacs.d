@@ -162,30 +162,22 @@
 (use-package god-mode
   :ensure t
   :init (require' god-mode-isearch)
-  :bind (("<escape>" . god-mode-on)
+  :bind (("<escape>" . god-mode-idempotent-enable)
          :map god-local-mode-map
-         ("i" . god-mode-off)
+         ("i" . god-local-mode)
          ("." . repeat)
          :map isearch-mode-map
          ("<escape>" . god-mode-isearch-activate)
          :map god-mode-isearch-map
          ("<escape>" . god-mode-isearch-disable))
-  :chords ("jk" . god-mode-on)
+  :chords ("jk" . god-mode-idempotent-enable)
   :config
-  (defun god-mode-on ()
+  (defun god-mode-idempotent-enable ()
      "Activate God mode if the buffer is in insert mode.
 Keep it active if the buffer is in God mode"
     (interactive)
     (when (god-local-mode)
       'god-local-mode))
-  (defun god-mode-off ()
-    "Turn God mode off silently. Using the minor mode toggle prints a
-message in the minibuffer, which is annoying when you are using
-God-mode there. Also, that message is useless given the nature of
-this mode (constantly on/off, different cursor)"
-    (interactive)
-    (god-local-mode -1)
-    (run-hooks 'god-mode-disabled-hook))
   (defun god-mode-custom-update-cursor ()
     "Change cursor shape in god mode"
     (setq cursor-type (if (or god-local-mode buffer-read-only)
@@ -219,16 +211,32 @@ this mode (constantly on/off, different cursor)"
 
 ;;;  * Minibuffer
 
-;; silence messages in minibuffer when editing it
+(defun minibuffer-disable-messages ()
+  "Disable printing messages to the minibuffer. They will still be
+displayed in the *Messages* buffer"
+  (setq inhibit-message t))
+
+(defun minibuffer-enable-messages ()
+  "Enable printing messages to the minibuffer"
+  (setq inhibit-message nil))
+
+;; Disable messages in the minibuffer while it's being edited.
+;; Reenable them when the minibuffer is closed, either via C-g or evaluation.
+;; If you jump back and forth between the minibuffer and another window
+;; message will be disabled until you close the minibuffer as above.
+;; No messagesa are lost, since they are still displayed in the *Messages* buffer
+
+(add-hook 'minibuffer-setup-hook 'minibuffer-disable-messages)
+(add-hook 'minibuffer-exit-hook 'minibuffer-enable-messages)
 
 ;;;  * Better undo
 
 (use-package undo-tree
   :ensure t
   ;; undo-tree has these bindings in a local
-  ;; keymap only, causing various issues    
-  :bind (("C-/" . undo-tree-undo)         
-         ("C-?" . undo-tree-redo)         
+  ;; keymap only, causing various issues
+  :bind (("C-/" . undo-tree-undo)
+         ("C-?" . undo-tree-redo)
          ("C-x u" . undo-tree-visualize))
   :config
   (global-undo-tree-mode t))
