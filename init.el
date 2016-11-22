@@ -173,17 +173,17 @@
   :chords ("jk" . god-mode-on)
   :config
   (defun god-mode-on ()
+     "Activate God mode if the buffer is in insert mode.
+Keep it active if the buffer is in God mode"
     (interactive)
-    "Activate God mode if the buffer is in insert mode.
-     Keep it active if the buffer is in God mode"
     (when (god-local-mode)
       'god-local-mode))
   (defun god-mode-off ()
-    (interactive)
     "Turn God mode off silently. Using the minor mode toggle prints a
-     message in the minibuffer, which is annoying when you are using
-     God-mode there. Also, that message is useless given the nature of
-     this mode (constantly on/off, different cursor)"
+message in the minibuffer, which is annoying when you are using
+God-mode there. Also, that message is useless given the nature of
+this mode (constantly on/off, different cursor)"
+    (interactive)
     (god-local-mode -1)
     (run-hooks 'god-mode-disabled-hook))
   (defun god-mode-custom-update-cursor ()
@@ -325,11 +325,13 @@
   :ensure t
   :config
   (defun latex-preview-pane-start-preview ()
+    "Start a live pdf preview-on-save of a TeX document in an adjacent window"
     (interactive)
     (unless (bound-and-true-p latex-preview-pane-mode)
       (latex-preview-pane-mode)
       (message "Preview on save started. C-q to stop")))
   (defun latex-preview-pane-stop-preview ()
+    "Stop the preview started by latex-preview-pane-start-preview"
     (interactive)
     (when (bound-and-true-p latex-preview-pane-mode)
     (latex-preview-pane-mode -1))))
