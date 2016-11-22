@@ -1,13 +1,17 @@
 ;;;  * My Emacs configuration
 
 (setq user-full-name "Fabio Labella")
+
 (defun emacs-lisp-fold-file-with-org ()
   "Init.el can be folded as if it were an Org buffer"
   (setq-local orgstruct-heading-prefix-regexp ";;;  ")
   (turn-on-orgstruct))
+
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-fold-file-with-org)
 
 ;;;  * Package sources
+
+(setq load-prefer-newer t) ; don't load outdated bytecode
 
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -15,18 +19,20 @@
                          ("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa-stable" . "http://stable.melpa.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")))
+
 (package-initialize)
-(setq load-prefer-newer t) ; don't load outdated bytecode
 
 ;;;  * Set up use-package
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
 (require 'bind-key)
+
 (use-package use-package-chords ; define key-chords in use package declarations
   :ensure key-chord
   :ensure t)
@@ -58,6 +64,7 @@
   (setq mac-right-command-modifier 'control)
   ;; on a Mac, don't complain about setting variables in .bashrc instead of .bash_profile
   (setq exec-path-from-shell-check-startup-files nil))
+
 (use-package exec-path-from-shell ; load path from bash
   :ensure t
   :if (and (eq system-type 'darwin) (display-graphic-p))
@@ -79,41 +86,49 @@
 (setq inhibit-startup-message t
       inhibit-splash-screen t
       ring-bell-function 'ignore)
+
 (line-number-mode t) ; Line numbers in mode line
 (column-number-mode t) ; Column numbers in mode line
 (mouse-wheel-mode t) ; Enable scrolling
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+
 (use-package solarized-theme ; + Blended fringe  - Pervasive shitty pea green
   :ensure t
   :defer t
   :init
   (load-theme 'solarized-dark t t))
+
 (use-package ample-theme ; + Low-contrast  - Fringe and some of the colours
   :ensure t
   :defer t
   :init
   (load-theme 'ample-flat t t))
+
 (use-package planet-theme ; + Very nice colours  - Fringe, awful vertical line.
   :ensure t
   :defer t
   :init
   (load-theme 'planet t t))
+
 (use-package subatomic-theme ; + Nice colours, Blended Fringe and nice vertical line  - Background not nice
   :ensure t
   :defer t
   :init
   (load-theme 'subatomic t t))
+
 (use-package twilight-anti-bright-theme ; + Nice background and colours  - Fringe, weird comment outlining
   :ensure t
   :defer t
   :init
   (load-theme 'twilight-anti-bright t t))
+
 (defun switch-theme ()
   "Disable any active themes, then load a new one"
   (interactive)
   (mapcar 'disable-theme custom-enabled-themes)
   (call-interactively 'load-theme))
+
 (enable-theme 'planet)
 
 ;;;  * General completion interface
@@ -126,20 +141,24 @@
   (add-to-list 'ido-ignore-buffers "*")
   (add-to-list 'ido-ignore-files "\\.DS_Store")
   (ido-mode t))
+
 (use-package ido-ubiquitous
   :ensure t
   :config
   (ido-ubiquitous-mode t))
+
 (use-package flx-ido
   :ensure t
   :config
   (setq ido-use-faces nil) ; disable ido faces to see flx highlights.
   (flx-ido-mode t))
+
 (use-package ido-vertical-mode
   :ensure t
   :config
   (setq ido-vertical-define-keys 'C-n-C-p)
   (ido-vertical-mode t))
+
 (use-package smex
   :ensure t
   :bind (("M-x" . smex)
@@ -159,6 +178,7 @@
   (key-chord-mode t)
   :config
   (key-chord-define-global "fj" ctl-x-map))
+
 (use-package god-mode
   :ensure t
   :init (require' god-mode-isearch)
@@ -206,6 +226,7 @@ Keep it active if the buffer is in God mode"
   (setq aw-dispatch-always t)
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (setq aw-background nil))
+
 (winner-mode t) ; undo-redo frame configuration
 (windmove-default-keybindings) ; use shift-arrow to move between frames
 
@@ -225,7 +246,6 @@ displayed in the *Messages* buffer"
 ;; If you jump back and forth between the minibuffer and another window
 ;; message will be disabled until you close the minibuffer as above.
 ;; No messagesa are lost, since they are still displayed in the *Messages* buffer
-
 (add-hook 'minibuffer-setup-hook 'minibuffer-disable-messages)
 (add-hook 'minibuffer-exit-hook 'minibuffer-enable-messages)
 
@@ -264,10 +284,12 @@ displayed in the *Messages* buffer"
   (setq dired-recursive-deletes 'always)
   (setq dired-recursive-copies 'always)
   (require 'dired-x)) ; dired jump to dir of current buffer
+
 (use-package projectile
   :ensure t
   :config
   (projectile-mode t))
+
 (use-package ibuffer
   :ensure t
   :bind ("C-x C-b" . ibuffer))
@@ -329,6 +351,7 @@ displayed in the *Messages* buffer"
                                (mapcar #'strip-prefix existing-keybindings)))))
     (setq LaTeX-font-list (add-stripped 'LaTeX-font-list))
     (setq TeX-font-list (add-stripped 'TeX-font-list))))
+
 (use-package latex-preview-pane
   :ensure t
   :config
