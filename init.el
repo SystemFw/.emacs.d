@@ -27,13 +27,14 @@
   :ensure t)
 
 ;;;;  * Backups, autosaves, and desktop saves
-(let ((backup-dir "backups")
-      (save-file-dir "autosaves")
-      (desktop-dir "desktop-saves")
-      (create-dir-if-nonexistent (lambda (dir-name)
-                                   (let ((dir-path (expand-file-name dir-name user-emacs-directory)))
-                                     (unless (file-exists-p dir-name)
-                                       (make-directory dir-name))))))
+(let* ((full-path (lambda (dir-name)
+                    (expand-file-name dir-name user-emacs-directory)))
+       (create-dir-if-nonexistent (lambda (dir-name)
+                                    (unless (file-exists-p dir-name)
+                                      (make-directory dir-name))))
+       (backup-dir (funcall full-path "backups"))
+       (save-file-dir (funcall full-path "autosaves"))
+       (desktop-dir (funcall full-path "desktop-saves")))
   (mapcar create-dir-if-nonexistent `(,backup-dir ,save-file-dir ,desktop-dir))
   (setq make-backup-files t
         version-control t
@@ -41,9 +42,9 @@
         backup-directory-alist `((".*" . ,backup-dir)))
   (setq auto-save-file-name-transforms `((".*" ,save-file-dir t)))
   (use-package desktop
-  :init
-  (setq desktop-path `(,desktop-dir))
-  (desktop-save-mode -1)))
+    :init
+    (setq desktop-path `(,desktop-dir))
+    (desktop-save-mode -1)))
 
 ;;;;  * Mac specific settings
 (when (eq system-type 'darwin)
