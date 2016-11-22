@@ -299,6 +299,11 @@ displayed in the *Messages* buffer"
 (use-package magit ; Awesome Git porcelain
   :ensure t)
 
+(setq ediff-window-setup-function 'ediff-setup-windows-plain ; Diff in the current frame
+      ediff-split-window-function (if (> (frame-width) 150)
+                                          'split-window-horizontally
+                                        'split-window-vertically))
+
 ;;;  * Rest
 
 (use-package restclient
