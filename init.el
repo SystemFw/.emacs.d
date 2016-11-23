@@ -380,10 +380,11 @@ displayed in the *Messages* buffer"
 
 ;;;  * Haskell
 
+(use-package intero
+  :ensure t)
+
 (use-package haskell-mode
   :ensure t
   :config
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
-  (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-  (add-hook 'haskell-mode-hook 'haskell-doc-mode)
-  :bind ("C-`" . haskell-interactive-bring))
+  (add-hook 'haskell-mode-hook 'intero-mode))
+
