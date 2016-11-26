@@ -80,6 +80,8 @@
 (setq require-final-newline t) ; Newline at the end of files
 (fset 'yes-or-no-p 'y-or-n-p) ; Use y or n instead of yes and no
 (put 'narrow-to-region 'disabled nil) ; Enable narrowing
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8) ; prefer UTF-8
 
 ;;;  * Appearance
 
