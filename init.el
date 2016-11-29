@@ -56,7 +56,7 @@
   (use-package desktop
     :init
     (setq desktop-path `(,desktop-dir))
-    (desktop-save-mode -1)))
+    (desktop-save-mode t)))
 
 ;;;  * Mac specific settings
 
