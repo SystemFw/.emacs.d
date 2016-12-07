@@ -286,6 +286,7 @@ displayed in the *Messages* buffer"
   (setq dired-dwim-target t) ; allows copying between two open dired buffers automatically
   (setq dired-recursive-deletes 'always)
   (setq dired-recursive-copies 'always)
+  (put 'dired-find-alternate-file 'disabled nil) ; enable dired navigation in the same buffer
   (require 'dired-x)) ; dired jump to dir of current buffer
 
 (use-package projectile
@@ -390,4 +391,3 @@ displayed in the *Messages* buffer"
   :ensure t
   :config
   (add-hook 'haskell-mode-hook 'intero-mode))
-
