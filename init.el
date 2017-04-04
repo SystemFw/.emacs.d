@@ -292,7 +292,13 @@ displayed in the *Messages* buffer"
 ;;;  * Version control
 
 (use-package magit ; Awesome Git porcelain
-  :ensure t)
+  :ensure t
+  :config
+  (setq magit-visit-ref-behavior ; To make 'Enter' check out things in the 'y' panel
+      '(create-branch
+        checkout-any
+        checkout-branch)))
+
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain ; Diff in the current frame
       ediff-split-window-function (if (> (frame-width) 150)
