@@ -284,7 +284,9 @@ displayed in the *Messages* buffer"
 (use-package projectile
   :ensure t
   :config
-  (projectile-mode t))
+  (projectile-mode t)
+  :bind (:map projectile-mode-map
+         ("C-c C-p" . projectile-command-map)))
 
 (use-package ibuffer
   :ensure t
