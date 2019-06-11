@@ -82,6 +82,7 @@
 (put 'narrow-to-region 'disabled nil) ; Enable narrowing
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8) ; prefer UTF-8
+(setq sentence-end-double-space nil) ; paragraphs end in a single space
 
 ;;;  * Appearance
 
