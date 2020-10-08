@@ -386,7 +386,9 @@ displayed in the *Messages* buffer"
 
 (use-package ensime
   :ensure t
-  :pin melpa-stable)
+  :pin melpa-stable
+  :config
+  (setq sbt:program-options '("-Dsbt.supershell=false")))
 
 ;;;  * Haskell
 
