@@ -17,8 +17,8 @@
 (setq package-enable-at-startup nil)
 (setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa-stable" . "http://stable.melpa.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 
 (package-initialize)
 
@@ -400,7 +400,13 @@ displayed in the *Messages* buffer"
   :config
   (add-hook 'haskell-mode-hook 'intero-mode))
 
-;;; * custom-set-variables
+;;;  * Bazel
+
+(use-package bazel
+  :ensure t
+  :mode (("BUILD'" . bazel-mode)))
+
+;;;  * custom-set-variables
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -446,7 +452,7 @@ displayed in the *Messages* buffer"
  '(org-agenda-files (quote ("~/Dropbox/todos/todo.org")))
  '(package-selected-packages
    (quote
-    (intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish)))
+    (bazel emacs-bazel-mode bazel-mode intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
