@@ -406,6 +406,9 @@ displayed in the *Messages* buffer"
   :ensure t
   :mode (("BUILD'" . bazel-mode)))
 
+;;;  * Terraform
+(use-package terraform-mode
+  :ensure t)
 ;;;  * custom-set-variables
 
 (custom-set-variables
@@ -452,7 +455,7 @@ displayed in the *Messages* buffer"
  '(org-agenda-files (quote ("~/Dropbox/todos/todo.org")))
  '(package-selected-packages
    (quote
-    (bazel emacs-bazel-mode bazel-mode intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish)))
+    (terraform-mode bazel emacs-bazel-mode bazel-mode intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
