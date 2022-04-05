@@ -2,13 +2,6 @@
 
 (setq user-full-name "Fabio Labella")
 
-;; (defun emacs-lisp-fold-file-with-org ()
-;;   "Init.el can be folded as if it were an Org buffer"
-;;   (setq-local orgstruct-heading-prefix-regexp ";;;  ")
-;;   (turn-on-orgstruct))
-
-;; (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-fold-file-with-org)
-
 ;;;  * Package sources
 
 (setq load-prefer-newer t) ; don't load outdated bytecode
@@ -30,12 +23,21 @@
 
 (eval-when-compile
   (require 'use-package))
-;; (require 'diminish)
+(require 'diminish)
 (require 'bind-key)
 
 (use-package use-package-chords ; define key-chords in use package declarations
   :ensure key-chord
   :ensure t)
+
+
+;;; * Enable folding of this file
+
+(use-package outshine
+  :ensure t
+  :init
+  (add-hook 'emacs-lisp-mode-hook 'outshine-mode))
+
 
 ;;;  * Backups, autosaves, and desktop saves
 
@@ -450,7 +452,7 @@ displayed in the *Messages* buffer"
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Dropbox/todos/todo.org"))
  '(package-selected-packages
-   '(ido-completing-read+ terraform-mode bazel emacs-bazel-mode bazel-mode intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish))
+   '(outshine ido-completing-read+ terraform-mode bazel emacs-bazel-mode bazel-mode intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
