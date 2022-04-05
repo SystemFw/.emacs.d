@@ -16,15 +16,14 @@
 (package-initialize)
 
 ;;;  * Set up use-package
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
 (require 'bind-key)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (use-package use-package-chords ; define key-chords in use package declarations
   :ensure key-chord
@@ -34,8 +33,7 @@
 
 (use-package outshine
   :ensure t
-  :init
-  (add-hook 'emacs-lisp-mode-hook 'outshine-mode))
+  :hook emacs-lisp-mode)
 
 ;;;  * Backups, autosaves, and desktop saves
 
