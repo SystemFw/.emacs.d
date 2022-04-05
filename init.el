@@ -2,12 +2,12 @@
 
 (setq user-full-name "Fabio Labella")
 
-(defun emacs-lisp-fold-file-with-org ()
-  "Init.el can be folded as if it were an Org buffer"
-  (setq-local orgstruct-heading-prefix-regexp ";;;  ")
-  (turn-on-orgstruct))
+;; (defun emacs-lisp-fold-file-with-org ()
+;;   "Init.el can be folded as if it were an Org buffer"
+;;   (setq-local orgstruct-heading-prefix-regexp ";;;  ")
+;;   (turn-on-orgstruct))
 
-(add-hook 'emacs-lisp-mode-hook 'emacs-lisp-fold-file-with-org)
+;; (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-fold-file-with-org)
 
 ;;;  * Package sources
 
@@ -15,7 +15,7 @@
 
 (require 'package)
 (setq package-enable-at-startup nil)
-(setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
+(setq package-archives '(;; ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
@@ -30,7 +30,7 @@
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
+;; (require 'diminish)
 (require 'bind-key)
 
 (use-package use-package-chords ; define key-chords in use package declarations
@@ -384,11 +384,12 @@ displayed in the *Messages* buffer"
 
 ;;;  * Scala
 
-(use-package ensime
-  :ensure t
-  :pin melpa-stable
-  :config
-  (setq sbt:program-options '("-Dsbt.supershell=false")))
+;; (use-package ensime
+;;   :ensure t
+;;   :pin melpa-stable
+;;   :config
+;;   (setq sbt:program-options '("-Dsbt.supershell=false")))
+
 
 ;;;  * Haskell
 
@@ -418,44 +419,38 @@ displayed in the *Messages* buffer"
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
    ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#839496"])
- '(compilation-message-face (quote default))
+ '(compilation-message-face 'default)
  '(cua-global-mark-cursor-color "#2aa198")
  '(cua-normal-cursor-color "#657b83")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
  '(fci-rule-color "#eee8d5")
- '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ '(highlight-changes-colors '("#d33682" "#6c71c4"))
  '(highlight-symbol-colors
    (--map
     (solarized-color-blend it "#fdf6e3" 0.25)
-    (quote
-     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+    '("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2")))
  '(highlight-symbol-foreground-color "#586e75")
  '(highlight-tail-colors
-   (quote
-    (("#eee8d5" . 0)
+   '(("#eee8d5" . 0)
      ("#B4C342" . 20)
      ("#69CABF" . 30)
      ("#69B7F0" . 50)
      ("#DEB542" . 60)
      ("#F2804F" . 70)
      ("#F771AC" . 85)
-     ("#eee8d5" . 100))))
+     ("#eee8d5" . 100)))
  '(hl-bg-colors
-   (quote
-    ("#DEB542" "#F2804F" "#FF6E64" "#F771AC" "#9EA0E5" "#69B7F0" "#69CABF" "#B4C342")))
+   '("#DEB542" "#F2804F" "#FF6E64" "#F771AC" "#9EA0E5" "#69B7F0" "#69CABF" "#B4C342"))
  '(hl-fg-colors
-   (quote
-    ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
- '(hl-paren-colors (quote ("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900")))
+   '("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3"))
+ '(hl-paren-colors '("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900"))
  '(magit-diff-use-overlays nil)
  '(nrepl-message-colors
-   (quote
-    ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
- '(org-agenda-files (quote ("~/Dropbox/todos/todo.org")))
+   '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
+ '(org-agenda-files '("~/Dropbox/todos/todo.org"))
  '(package-selected-packages
-   (quote
-    (terraform-mode bazel emacs-bazel-mode bazel-mode intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish)))
+   '(ido-completing-read+ terraform-mode bazel emacs-bazel-mode bazel-mode intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
@@ -464,8 +459,7 @@ displayed in the *Messages* buffer"
  '(vc-annotate-background nil)
  '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map
-   (quote
-    ((20 . "#dc322f")
+   '((20 . "#dc322f")
      (40 . "#c9485ddd1797")
      (60 . "#bf7e73b30bcb")
      (80 . "#b58900")
@@ -482,11 +476,10 @@ displayed in the *Messages* buffer"
      (300 . "#288e98cbafe2")
      (320 . "#27c19460bb87")
      (340 . "#26f38ff5c72c")
-     (360 . "#268bd2"))))
+     (360 . "#268bd2")))
  '(vc-annotate-very-old-color nil)
  '(weechat-color-list
-   (quote
-    (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496")))
+   '(unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496"))
  '(xterm-color-names
    ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"])
  '(xterm-color-names-bright
