@@ -30,14 +30,12 @@
   :ensure key-chord
   :ensure t)
 
-
 ;;; * Enable folding of this file
 
 (use-package outshine
   :ensure t
   :init
   (add-hook 'emacs-lisp-mode-hook 'outshine-mode))
-
 
 ;;;  * Backups, autosaves, and desktop saves
 
@@ -62,6 +60,7 @@
 
 ;;;  * Mac specific settings
 
+;; TODO not sure this is needed anymore, at least not on M1
 (when (eq system-type 'darwin)
   (setq mac-right-command-modifier 'control)
   ;; on a Mac, don't complain about setting variables in .bashrc instead of .bash_profile
