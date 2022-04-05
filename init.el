@@ -98,23 +98,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-(use-package solarized-theme ; + Blended fringe  - Pervasive shitty pea green
-  :ensure t
-  :defer t)
-
-(use-package ample-theme ; + Low-contrast  - Fringe and some of the colours
-  :ensure t
-  :defer t)
-
 (use-package planet-theme ; + Very nice colours  - Fringe, awful vertical line.
-  :ensure t
-  :defer t)
-
-(use-package subatomic-theme ; + Nice colours, Blended Fringe and nice vertical line  - Background not nice
-  :ensure t
-  :defer t)
-
-(use-package twilight-anti-bright-theme ; + Nice background and colours  - Fringe, weird comment outlining
   :ensure t
   :defer t)
 
