@@ -136,9 +136,9 @@
   (add-to-list 'ido-ignore-buffers "intero-script*")
   (add-to-list 'ido-ignore-buffers "magit-*")
   (add-to-list 'ido-ignore-files "\\.DS_Store")
-  (ido-mode t))
-
-(use-package ido-ubiquitous
+  (ido-mode t)
+)
+(use-package ido-completing-read+
   :ensure t
   :config
   (ido-ubiquitous-mode t))
