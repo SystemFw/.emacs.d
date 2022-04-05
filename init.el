@@ -29,7 +29,7 @@
   :ensure key-chord
   :ensure t)
 
-;;; * Enable folding of this file
+;;;  * Enable folding of this file
 
 (use-package outshine
   :ensure t
@@ -267,10 +267,11 @@ displayed in the *Messages* buffer"
 
 (use-package projectile
   :ensure t
+  :demand t ; without this, shortcuts only work after calling a command manually once
+  :bind (:map projectile-mode-map ; :bind-keymap does not work, have to use this form
+              ("C-c C-p" . projectile-command-map))
   :config
-  (projectile-mode t)
-  :bind (:map projectile-mode-map
-         ("C-c C-p" . projectile-command-map)))
+  (projectile-mode t))
 
 (use-package ibuffer
   :ensure t
