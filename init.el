@@ -58,7 +58,6 @@
 
 ;;;  * Mac specific settings
 
-;; TODO not sure this is needed anymore, at least not on M1
 (when (eq system-type 'darwin)
   (setq mac-right-command-modifier 'control)
   ;; on a Mac, don't complain about setting variables in .bashrc instead of .bash_profile
@@ -70,7 +69,8 @@
   :config
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "PS1")
-  (exec-path-from-shell-copy-env "CELLAR"))
+  (exec-path-from-shell-copy-env "JAVA_HOME")
+  (exec-path-from-shell-copy-env "PATH"))
 
 ;;;  * Misc settings
 
