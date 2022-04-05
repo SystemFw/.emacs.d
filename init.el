@@ -33,7 +33,7 @@
 
 (use-package outshine
   :ensure t
-  :hook emacs-lisp-mode)
+  :hook (emacs-lisp-mode . outshine-mode))
 
 ;;;  * Backups, autosaves, and desktop saves
 
