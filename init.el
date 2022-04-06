@@ -373,14 +373,16 @@ displayed in the *Messages* buffer"
 (use-package sbt-mode
   :ensure t
   :commands sbt-start sbt-command
+  :bind
+  (:prefix-map my-sbt--map
+               :prefix "C-c C-b"
+               ("c" . sbt-do-compile)
+               ("t" . sbt-do-test)
+               ("o" . sbt-switch-to-active-sbt-buffer) ; mnemonic: open
+               ("l" . run-scala) ; mnemonic: load
+               ("g" . sbt-grep))
   :config
   (setq sbt:prefer-nested-projects t))
-  ;; :config
-  ;; ;; WORKAROUND: allows using SPACE when in the minibuffer
-  ;; (substitute-key-definition
-  ;;  'minibuffer-complete-word
-  ;;  'self-insert-command
-  ;;  minibuffer-local-completion-map))
 
 ;; (use-package ensime
 ;;   :ensure t
