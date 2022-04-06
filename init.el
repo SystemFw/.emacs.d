@@ -26,11 +26,15 @@
   :ensure key-chord
   :ensure t)
 
-;;;  * Enable folding of this file
+;;;  * Meta
 
-(use-package outshine
+(use-package outshine ; enable folding of this file
   :ensure t
   :hook (emacs-lisp-mode . outshine-mode))
+
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 ;;;  * Appearance
 
@@ -402,17 +406,3 @@ displayed in the *Messages* buffer"
 ;;;  * Terraform
 (use-package terraform-mode
   :ensure t)
-;;; * custom set variables
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(intero yaml-mode use-package-chords undo-tree twilight-anti-bright-theme terraform-mode subatomic-theme solarized-theme smex smartparens scala-mode sbt-mode restclient projectile planet-theme outshine markdown-mode magit latex-preview-pane ido-vertical-mode ido-completing-read+ haskell-mode god-mode flx-ido exec-path-from-shell diminish bazel auctex ample-theme ace-window)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
