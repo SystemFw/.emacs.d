@@ -87,7 +87,7 @@
 (setq custom-safe-themes t)
 (load-theme 'planet)
 
-;;;  * Backups, autosaves, undo, desktop saves
+;;;  * Backups, autosaves, desktop saves
 
 (let* ((full-path (lambda (dir-name)
                     (expand-file-name dir-name user-emacs-directory)))
