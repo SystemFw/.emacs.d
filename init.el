@@ -51,17 +51,6 @@
   (exec-path-from-shell-copy-env "JAVA_HOME")
   (exec-path-from-shell-copy-env "PATH"))
 
-;;;  * Misc settings
-
-(setq-default indent-tabs-mode nil) ; Indent with no tabs
-(delete-selection-mode t) ; Overwrite selected text
-(setq require-final-newline t) ; Newline at the end of files
-(fset 'yes-or-no-p 'y-or-n-p) ; Use y or n instead of yes and no
-(put 'narrow-to-region 'disabled nil) ; Enable narrowing
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8) ; prefer UTF-8
-(setq sentence-end-double-space nil) ; paragraphs end in a single space
-
 ;;;  * Appearance
 
 (setq inhibit-startup-message t
@@ -108,20 +97,7 @@
     (setq desktop-path `(,desktop-dir))
     (desktop-save-mode t)))
 
-;;;  * Better undo
-
-(use-package undo-tree
-  :ensure t
-  ;; undo-tree has these bindings in a local
-  ;; keymap only, causing various issues
-  :bind (("C-/" . undo-tree-undo)
-         ("C-?" . undo-tree-redo)
-         ("C-x u" . undo-tree-visualize))
-  :init (global-undo-tree-mode)
-  :custom
-  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-saves"))))
-
-;;;  * General completion interface
+;;;  * Completion interface
 
 (use-package ido
   :ensure t
@@ -157,7 +133,7 @@
          ("M-X" . smex-major-mode-commands))
   :chords ("fk"  . smex))
 
-;;;  * Modal editing
+;;;  * Modal control
 
 (use-package key-chord
   :ensure t
@@ -200,16 +176,14 @@ Keep it active if the buffer is in God mode"
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil))
 
-;;;  * Quick movement
-
-(use-package avy
+(use-package avy ; quick movement
   :ensure t
   :chords ("kk" . avy-goto-char-timer)
   :config
   (avy-setup-default)
   (setq avy-timeout-seconds 0.2))
 
-;;;  * Frame and Window management
+;;;  * Frame, Window, Minibuffer
 
 (use-package ace-window ; quick jump to frames and more
   :ensure t
@@ -221,8 +195,6 @@ Keep it active if the buffer is in God mode"
 
 (winner-mode t) ; undo-redo frame configuration
 (windmove-default-keybindings) ; use shift-arrow to move between frames
-
-;;;  * Minibuffer
 
 (defun minibuffer-disable-messages ()
   "Disable printing messages to the minibuffer. They will still be
@@ -241,14 +213,11 @@ displayed in the *Messages* buffer"
 (add-hook 'minibuffer-setup-hook 'minibuffer-disable-messages)
 (add-hook 'minibuffer-exit-hook 'minibuffer-enable-messages)
 
+;;;  * Editing
 
-;;;  * Autocompletion
-
-(use-package hippie-exp
+(use-package hippie-exp ; basic autocompletion
   :ensure t
   :chords ("jj" . hippie-expand))
-
-;;;  * Parentheses
 
 (use-package smartparens
   :ensure t
@@ -256,6 +225,27 @@ displayed in the *Messages* buffer"
   (setq sp-highlight-pair-overlay nil) ; Don't highlight current sexp
   (smartparens-global-mode t)
   (show-smartparens-global-mode t))
+
+(use-package undo-tree
+  :ensure t
+  ;; undo-tree has these bindings in a local
+  ;; keymap only, causing various issues
+  :bind (("C-/" . undo-tree-undo)
+         ("C-?" . undo-tree-redo)
+         ("C-x u" . undo-tree-visualize))
+  :init (global-undo-tree-mode)
+  :custom
+  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-saves"))))
+
+(setq-default indent-tabs-mode nil) ; Indent with no tabs
+(delete-selection-mode t) ; Overwrite selected text
+(setq require-final-newline t) ; Newline at the end of files
+(fset 'yes-or-no-p 'y-or-n-p) ; Use y or n instead of yes and no
+(put 'narrow-to-region 'disabled nil) ; Enable narrowing
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8) ; prefer UTF-8
+(setq sentence-end-double-space nil) ; paragraphs end in a single space
+
 
 ;;;  * File, Buffer, and Project Management
 
