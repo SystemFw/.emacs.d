@@ -40,13 +40,15 @@
 
 (setq inhibit-startup-message t
       inhibit-splash-screen t
-      ring-bell-function 'ignore)
+      ring-bell-function 'ignore
+      cursor-in-non-selected-windows nil)
 
 (line-number-mode t) ; Line numbers in mode line
 (column-number-mode t) ; Column numbers in mode line
 (mouse-wheel-mode t) ; Enable scrolling
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+
 
 (use-package planet-theme
   :ensure t
