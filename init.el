@@ -279,6 +279,8 @@ displayed in the *Messages* buffer"
   :ensure t
   :bind ("C-x C-b" . ibuffer))
 
+(setq org-agenda-files '("~/Dropbox/todos/todo.org"))
+
 ;;;  * Version control
 
 (use-package magit ; Awesome Git porcelain
