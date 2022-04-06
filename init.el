@@ -117,7 +117,7 @@
   :bind (("C-/" . undo-tree-undo)
          ("C-?" . undo-tree-redo)
          ("C-x u" . undo-tree-visualize))
-  :init (global undo-tree-mode)
+  :init (global-undo-tree-mode)
   :custom
   (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-saves"))))
 
