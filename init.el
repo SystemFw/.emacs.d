@@ -35,27 +35,6 @@
   :ensure t
   :hook (emacs-lisp-mode . outshine-mode))
 
-;;;  * Backups, autosaves, and desktop saves
-
-(let* ((full-path (lambda (dir-name)
-                    (expand-file-name dir-name user-emacs-directory)))
-       (create-dir-if-nonexistent (lambda (dir-name)
-                                    (unless (file-exists-p dir-name)
-                                      (make-directory dir-name))))
-       (backup-dir (funcall full-path "backups"))
-       (save-file-dir (funcall full-path "autosaves"))
-       (desktop-dir (funcall full-path "desktop-saves")))
-  (mapcar create-dir-if-nonexistent `(,backup-dir ,save-file-dir ,desktop-dir))
-  (setq make-backup-files t
-        version-control t
-        delete-old-versions t
-        backup-directory-alist `((".*" . ,backup-dir)))
-  (setq auto-save-file-name-transforms `((".*" ,save-file-dir t)))
-  (use-package desktop
-    :init
-    (setq desktop-path `(,desktop-dir))
-    (desktop-save-mode t)))
-
 ;;;  * Mac specific settings
 
 (when (eq system-type 'darwin)
@@ -107,6 +86,40 @@
 
 (setq custom-safe-themes t)
 (load-theme 'planet)
+
+;;;  * Backups, autosaves, undo, desktop saves
+
+(let* ((full-path (lambda (dir-name)
+                    (expand-file-name dir-name user-emacs-directory)))
+       (create-dir-if-nonexistent (lambda (dir-name)
+                                    (unless (file-exists-p dir-name)
+                                      (make-directory dir-name))))
+       (backup-dir (funcall full-path "backups"))
+       (save-file-dir (funcall full-path "autosaves"))
+       (desktop-dir (funcall full-path "desktop-saves")))
+  (mapcar create-dir-if-nonexistent `(,backup-dir ,save-file-dir ,desktop-dir))
+  (setq make-backup-files t
+        version-control t
+        delete-old-versions t
+        backup-directory-alist `((".*" . ,backup-dir)))
+  (setq auto-save-file-name-transforms `((".*" ,save-file-dir t)))
+  (use-package desktop
+    :init
+    (setq desktop-path `(,desktop-dir))
+    (desktop-save-mode t)))
+
+;;;  * Better undo
+
+(use-package undo-tree
+  :ensure t
+  ;; undo-tree has these bindings in a local
+  ;; keymap only, causing various issues
+  :bind (("C-/" . undo-tree-undo)
+         ("C-?" . undo-tree-redo)
+         ("C-x u" . undo-tree-visualize))
+  :init (global undo-tree-mode)
+  :custom
+  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-saves"))))
 
 ;;;  * General completion interface
 
@@ -228,17 +241,6 @@ displayed in the *Messages* buffer"
 (add-hook 'minibuffer-setup-hook 'minibuffer-disable-messages)
 (add-hook 'minibuffer-exit-hook 'minibuffer-enable-messages)
 
-;;;  * Better undo
-
-(use-package undo-tree
-  :ensure t
-  ;; undo-tree has these bindings in a local
-  ;; keymap only, causing various issues
-  :bind (("C-/" . undo-tree-undo)
-         ("C-?" . undo-tree-redo)
-         ("C-x u" . undo-tree-visualize))
-  :config
-  (global-undo-tree-mode t))
 
 ;;;  * Autocompletion
 
