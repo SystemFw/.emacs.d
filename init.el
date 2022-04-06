@@ -74,7 +74,7 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
-(use-package planet-theme ; + Very nice colours  - Fringe, awful vertical line.
+(use-package planet-theme
   :ensure t
   :defer t)
 
