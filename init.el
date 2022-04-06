@@ -2,20 +2,17 @@
 
 (setq user-full-name "Fabio Labella")
 
-;;;  * Package sources
+;;;  * Package init
 
 (setq load-prefer-newer t) ; don't load outdated bytecode
 
 (require 'package)
 (setq package-enable-at-startup nil)
-(setq package-archives '(;; ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
 
 (package-initialize)
 
-;;;  * Set up use-package
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
