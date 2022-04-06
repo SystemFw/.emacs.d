@@ -35,22 +35,6 @@
   :ensure t
   :hook (emacs-lisp-mode . outshine-mode))
 
-;;;  * Mac specific settings
-
-(when (eq system-type 'darwin)
-  (setq mac-right-command-modifier 'control)
-  ;; on a Mac, don't complain about setting variables in .bashrc instead of .bash_profile
-  (setq exec-path-from-shell-check-startup-files nil))
-
-(use-package exec-path-from-shell ; load path from bash
-  :ensure t
-  :if (and (eq system-type 'darwin) (display-graphic-p))
-  :config
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "PS1")
-  (exec-path-from-shell-copy-env "JAVA_HOME")
-  (exec-path-from-shell-copy-env "PATH"))
-
 ;;;  * Appearance
 
 (setq inhibit-startup-message t
@@ -75,6 +59,22 @@
 
 (setq custom-safe-themes t)
 (load-theme 'planet)
+
+;;;  * Mac specific settings
+
+(when (eq system-type 'darwin)
+  (setq mac-right-command-modifier 'control)
+  ;; on a Mac, don't complain about setting variables in .bashrc instead of .bash_profile
+  (setq exec-path-from-shell-check-startup-files nil))
+
+(use-package exec-path-from-shell ; load path from bash
+  :ensure t
+  :if (and (eq system-type 'darwin) (display-graphic-p))
+  :config
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "PS1")
+  (exec-path-from-shell-copy-env "JAVA_HOME")
+  (exec-path-from-shell-copy-env "PATH"))
 
 ;;;  * Backups, autosaves, desktop saves
 
