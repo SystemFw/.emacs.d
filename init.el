@@ -368,6 +368,23 @@ displayed in the *Messages* buffer"
 
 ;;;  * Scala
 
+(use-package scala-mode
+  :ensure t
+  :interpreter
+  ("scala" . scala-mode))
+
+(use-package sbt-mode
+  :ensure t
+  :commands sbt-start sbt-command
+  :config
+  (setq sbt:prefer-nested-projects t))
+  ;; :config
+  ;; ;; WORKAROUND: allows using SPACE when in the minibuffer
+  ;; (substitute-key-definition
+  ;;  'minibuffer-complete-word
+  ;;  'self-insert-command
+  ;;  minibuffer-local-completion-map))
+
 ;; (use-package ensime
 ;;   :ensure t
 ;;   :pin melpa-stable
@@ -434,7 +451,7 @@ displayed in the *Messages* buffer"
    '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(org-agenda-files '("~/Dropbox/todos/todo.org"))
  '(package-selected-packages
-   '(outshine ido-completing-read+ terraform-mode bazel emacs-bazel-mode bazel-mode intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish))
+   '(sbt-mode scala-mode outshine ido-completing-read+ terraform-mode bazel emacs-bazel-mode bazel-mode intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
