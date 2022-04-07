@@ -397,19 +397,6 @@ displayed in the *Messages* buffer"
   :config
   (setq sbt:prefer-nested-projects t))
 
-;; (use-package ensime-mode
-;;   :ensure company
-;;   :ensure popup
-;;   :load-path "~/projects/ensime-tng-3.0.0/lisp"
-;;   :commands ensime-mode
-;;   :hook scala-mode
-;;   :bind
-;;   (:map ensime-mode-map
-;;         ("M-." . ensime-jump-to-definition)
-;;         ("C-c C-i t" . ensime-type-at-point)
-;;         ("C-c C-i s" . ensime-symbol-at-point)
-;;         ("C-c C-r i" . ensime-import-symbol-at-point)))
-
 ;; Enable nice rendering of diagnostics like compile errors.
 (use-package flycheck
   :ensure t
