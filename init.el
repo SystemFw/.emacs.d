@@ -383,6 +383,9 @@ displayed in the *Messages* buffer"
 
 (use-package scala-mode
   :ensure t
+  :hook
+  (scala-mode . lsp)
+  (scala-mode . company-mode)
   :interpreter
   ("scala" . scala-mode))
 
@@ -402,13 +405,13 @@ displayed in the *Messages* buffer"
 
 ;; Enable nice rendering of diagnostics like compile errors.
 (use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode))
+  :ensure t)
 
 (use-package lsp-mode
   :ensure t
-  :hook  (scala-mode . lsp)
-         (lsp-mode . lsp-lens-mode)
+  :hook
+  (lsp-mode . lsp-lens-mode)
+  (lsp-mode . flycheck-mode)
   :config ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
   (setq gc-cons-threshold 100000000) ;; 100mb
   (setq read-process-output-max (* 1024 1024)) ;; 1mb
@@ -424,10 +427,7 @@ displayed in the *Messages* buffer"
   :ensure t)
 
 (use-package company ; autocompletion
-  :ensure t
-  :hook (scala-mode . company-mode)
-  :config
-  (setq lsp-completion-provider :capf))
+  :ensure t)
 
 ;;;  * Haskell
 
