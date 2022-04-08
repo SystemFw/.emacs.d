@@ -403,8 +403,15 @@ displayed in the *Messages* buffer"
   :config
   (setq sbt:prefer-nested-projects t))
 
+;; TODO move these 3 inside lsp-mode?
 ;; Enable nice rendering of diagnostics like compile errors.
 (use-package flycheck
+  :ensure t)
+
+(use-package lsp-ui ; docs on hover
+  :ensure t)
+
+(use-package company ; autocompletion
   :ensure t)
 
 (use-package lsp-mode
@@ -423,11 +430,16 @@ displayed in the *Messages* buffer"
 (use-package lsp-metals
   :ensure t)
 
-(use-package lsp-ui ; docs on hover
-  :ensure t)
-
-(use-package company ; autocompletion
-  :ensure t)
+(use-package posframe
+  :ensure t
+  ;; Posframe is a pop-up tool that must be manually installed for dap-mode
+  )
+(use-package dap-mode
+  :ensure t
+  :hook
+  (lsp-mode . dap-mode)
+  (lsp-mode . dap-ui-mode)
+  )
 
 ;;;  * Haskell
 
