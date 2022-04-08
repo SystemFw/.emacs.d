@@ -13,14 +13,20 @@
 
 (package-initialize)
 
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+;; https://github.com/jkitchin/scimax/issues/150
+(unless (package-installed-p 'diminish)
+  (package-refresh-contents)
+  (package-install 'diminish))
+
+
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
 (require 'bind-key)
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
 
 (use-package use-package-chords ; define key-chords in use package declarations
   :ensure key-chord
