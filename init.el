@@ -379,13 +379,37 @@ displayed in the *Messages* buffer"
     (when (bound-and-true-p latex-preview-pane-mode)
     (latex-preview-pane-mode -1))))
 
+;;;  * LSP
+
+(use-package posframe ; needs to be installed manually
+  :ensure t)
+
+(use-package lsp-mode
+  :ensure t
+  :ensure flycheck
+  :ensure lsp-ui
+  :ensure company
+  :ensure dap-mode
+  :hook
+  (lsp-mode . lsp-lens-mode)
+  (lsp-mode . flycheck-mode)
+  (lsp-mode . dap-mode)
+  (lsp-mode . dap-ui-mode)
+  (lsp-mode . company-mode)
+  :config ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
+  (setq gc-cons-threshold 100000000) ;; 100mb
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (setq lsp-idle-delay 0.500)
+  (setq lsp-log-io nil)
+  (setq lsp-completion-provider :capf)
+  (setq lsp-prefer-flymake nil))
+
 ;;;  * Scala
 
 (use-package scala-mode
   :ensure t
   :hook
   (scala-mode . lsp)
-  (scala-mode . company-mode)
   :interpreter
   ("scala" . scala-mode))
 
@@ -399,47 +423,13 @@ displayed in the *Messages* buffer"
                ("t" . sbt-do-test)
                ("o" . sbt-switch-to-active-sbt-buffer) ; mnemonic: open
                ("l" . run-scala) ; mnemonic: load
-               ("g" . sbt-grep))
+               ("g" . sbt-grep)
+               ("f" . lsp-format-buffer))
   :config
   (setq sbt:prefer-nested-projects t))
 
-;; TODO move these 3 inside lsp-mode?
-;; Enable nice rendering of diagnostics like compile errors.
-(use-package flycheck
-  :ensure t)
-
-(use-package lsp-ui ; docs on hover
-  :ensure t)
-
-(use-package company ; autocompletion
-  :ensure t)
-
-(use-package lsp-mode
-  :ensure t
-  :hook
-  (lsp-mode . lsp-lens-mode)
-  (lsp-mode . flycheck-mode)
-  :config ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
-  (setq gc-cons-threshold 100000000) ;; 100mb
-  (setq read-process-output-max (* 1024 1024)) ;; 1mb
-  (setq lsp-idle-delay 0.500)
-  (setq lsp-log-io nil)
-  (setq lsp-completion-provider :capf)
-  (setq lsp-prefer-flymake nil))
-
 (use-package lsp-metals
   :ensure t)
-
-(use-package posframe
-  :ensure t
-  ;; Posframe is a pop-up tool that must be manually installed for dap-mode
-  )
-(use-package dap-mode
-  :ensure t
-  :hook
-  (lsp-mode . dap-mode)
-  (lsp-mode . dap-ui-mode)
-  )
 
 ;;;  * Haskell
 
