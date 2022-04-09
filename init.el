@@ -272,7 +272,7 @@ displayed in the *Messages* buffer"
 (setq sentence-end-double-space nil) ; paragraphs end in a single space
 
 
-;;;  * File, Buffer, and Project Management
+;;;  * Files, VC, Buffers, Projects
 
 (use-package dired
   :config
@@ -296,8 +296,6 @@ displayed in the *Messages* buffer"
 
 (setq org-agenda-files '("~/Dropbox/todos/todo.org"))
 
-;;;  * Version control
-
 (use-package magit ; Awesome Git porcelain
   :ensure t
   :config
@@ -306,28 +304,20 @@ displayed in the *Messages* buffer"
         checkout-any
         checkout-branch)))
 
-
 (setq ediff-window-setup-function 'ediff-setup-windows-plain ; Diff in the current frame
       ediff-split-window-function (if (> (frame-width) 150)
                                           'split-window-horizontally
                                         'split-window-vertically))
 
-;;;  * Rest
-
+;;;  * Web
 (use-package restclient
   :ensure t)
-
-;;;  * Json
 
 (use-package json
   :ensure t)
 
-;;;  * Yaml
-
 (use-package yaml-mode
   :ensure t)
-
-;;;  * Markdown
 
 (use-package markdown-mode
   :ensure t
