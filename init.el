@@ -38,6 +38,8 @@
   :ensure t
   :hook (emacs-lisp-mode . outshine-mode))
 
+; I don't use Customize but some settings are saved by emacs automatically.
+; Save them in different file rather than the end of init.el
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
@@ -429,13 +431,50 @@ displayed in the *Messages* buffer"
 
 ;;;  * Haskell
 
-(use-package intero
-  :ensure t)
 
 (use-package haskell-mode
   :ensure t
+  :hook
+  (haskell-mode . interactive-haskell-mode)
   :config
-  (add-hook 'haskell-mode-hook 'intero-mode))
+  (setq haskell-process-load-or-reload-prompt t)
+  (setq haskell-process-auto-import-loaded-modules t)
+  (setq haskell-process-log t))
+
+(use-package dante
+  :ensure t
+  :hook
+  (haskell-mode . flycheck-mode)
+  (haskell-mode . dante-mode))
+
+
+ ;;  (setq haskell-process-type 'cabal-repl)
+ ;; ;; (interactive-haskell-mode)
+ ;;  (setq haskell-process-load-or-reload-prompt t)
+ ;;  (setq haskell-process-auto-import-loaded-modules t)
+ ;;  (setq haskell-process-log t)
+;; (setq haskell-tags-on-save t)
+
+
+
+
+
+  
+ 
+
+;; (use-package flycheck-haskell
+;;   :config
+;;   (setq-default flycheck-disabled-checkers '(haskell-stack-ghc))
+;;   :hook
+;;   (haskell-mode . flycheck-haskell-setup))
+;; (use-package intero
+;;   :ensure t)
+
+;; (use-package haskell-mode
+;;   :ensure t)
+
+
+
 
 ;;;  * Bazel
 
