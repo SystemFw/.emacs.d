@@ -431,7 +431,6 @@ displayed in the *Messages* buffer"
 
 ;;;  * Haskell
 
-
 (use-package haskell-mode
   :ensure t
   :hook
@@ -446,35 +445,6 @@ displayed in the *Messages* buffer"
   :hook
   (haskell-mode . flycheck-mode)
   (haskell-mode . dante-mode))
-
-
- ;;  (setq haskell-process-type 'cabal-repl)
- ;; ;; (interactive-haskell-mode)
- ;;  (setq haskell-process-load-or-reload-prompt t)
- ;;  (setq haskell-process-auto-import-loaded-modules t)
- ;;  (setq haskell-process-log t)
-;; (setq haskell-tags-on-save t)
-
-
-
-
-
-  
- 
-
-;; (use-package flycheck-haskell
-;;   :config
-;;   (setq-default flycheck-disabled-checkers '(haskell-stack-ghc))
-;;   :hook
-;;   (haskell-mode . flycheck-haskell-setup))
-;; (use-package intero
-;;   :ensure t)
-
-;; (use-package haskell-mode
-;;   :ensure t)
-
-
-
 
 ;;;  * Bazel
 
