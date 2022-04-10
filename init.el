@@ -299,12 +299,7 @@ displayed in the *Messages* buffer"
 (setq org-agenda-files '("~/Dropbox/todos/todo.org"))
 
 (use-package magit ; Awesome Git porcelain
-  :ensure t
-  :config
-  (setq magit-visit-ref-behavior ; To make 'Enter' check out things in the 'y' panel
-      '(create-branch
-        checkout-any
-        checkout-branch)))
+  :ensure t)
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain ; Diff in the current frame
       ediff-split-window-function (if (> (frame-width) 150)
