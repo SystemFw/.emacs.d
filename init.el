@@ -438,7 +438,6 @@ displayed in the *Messages* buffer"
 (use-package dante
   :ensure t
   :hook
-  (haskell-mode . flycheck-mode)
   (haskell-mode . dante-mode))
 
 ;;;  * Bazel
