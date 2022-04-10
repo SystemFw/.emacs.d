@@ -153,8 +153,7 @@
 
 (use-package smex
   :ensure t
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands))
+  :bind ("M-x" . smex)
   :chords ("fk"  . smex))
 
 ;;;  * Modal control
