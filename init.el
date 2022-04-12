@@ -258,7 +258,8 @@ displayed in the *Messages* buffer"
          ("C-x u" . undo-tree-visualize))
   :init (global-undo-tree-mode)
   :custom
-  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-saves"))))
+  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-saves")))
+  (undo-tree-visualizer-diff t))
 
 (use-package yasnippet ; templates
   :ensure t)
