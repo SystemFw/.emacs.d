@@ -257,9 +257,9 @@ displayed in the *Messages* buffer"
          ("C-?" . undo-tree-redo)
          ("C-x u" . undo-tree-visualize))
   :init (global-undo-tree-mode)
-  :custom
-  (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-saves")))
-  (undo-tree-visualizer-diff t))
+  :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-saves")))
+  (setq undo-tree-visualizer-diff t))
 
 (use-package yasnippet ; templates
   :ensure t)
