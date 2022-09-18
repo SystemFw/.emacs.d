@@ -401,8 +401,8 @@ displayed in the *Messages* buffer"
 
 (use-package scala-mode
   :ensure t
-  :hook
-  (scala-mode . lsp)
+  ;; :hook
+  ;; (scala-mode . lsp)
   :interpreter
   ("scala" . scala-mode))
 
