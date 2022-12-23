@@ -2,31 +2,26 @@
 
 (setq user-full-name "Fabio Labella")
 
-(defun emacs-lisp-fold-file-with-org ()
-  "Init.el can be folded as if it were an Org buffer"
-  (setq-local orgstruct-heading-prefix-regexp ";;;  ")
-  (turn-on-orgstruct))
-
-(add-hook 'emacs-lisp-mode-hook 'emacs-lisp-fold-file-with-org)
-
-;;;  * Package sources
+;;;  * Package init
 
 (setq load-prefer-newer t) ; don't load outdated bytecode
 
 (require 'package)
 (setq package-enable-at-startup nil)
-(setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
 
 (package-initialize)
 
-;;;  * Set up use-package
-
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
+;; https://github.com/jkitchin/scimax/issues/150
+(unless (package-installed-p 'diminish)
+  (package-refresh-contents)
+  (package-install 'diminish))
+
 
 (eval-when-compile
   (require 'use-package))
@@ -37,7 +32,75 @@
   :ensure key-chord
   :ensure t)
 
-;;;  * Backups, autosaves, and desktop saves
+;;;  * Meta
+
+(use-package outshine ; enable folding of this file
+  :ensure t
+  :hook (emacs-lisp-mode . outshine-mode))
+
+; I don't use Customize but some settings are saved by emacs automatically.
+; Save them in different file rather than the end of init.el
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
+
+;;;  * Appearance
+
+(setq inhibit-startup-message t
+      inhibit-splash-screen t
+      ring-bell-function 'ignore
+      cursor-in-non-selected-windows nil)
+
+(line-number-mode t) ; Line numbers in mode line
+(column-number-mode t) ; Column numbers in mode line
+(mouse-wheel-mode t) ; Enable scrolling
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+
+
+(use-package planet-theme
+  :ensure t
+  :defer t)
+
+(defun switch-theme ()
+  "Disable any active themes, then load a new one"
+  (interactive)
+  (mapcar 'disable-theme custom-enabled-themes)
+  (call-interactively 'load-theme))
+
+(setq custom-safe-themes t)
+(load-theme 'planet)
+
+;;;  * Mac specific settings
+
+(when (eq system-type 'darwin)
+  (setq mac-right-command-modifier 'control)
+  ;; on a Mac, don't complain about setting variables in .bashrc instead of .bash_profile
+  (setq exec-path-from-shell-check-startup-files nil))
+
+(use-package exec-path-from-shell ; load path from bash
+  :ensure t
+  :if (and (eq system-type 'darwin) (display-graphic-p))
+  :config
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "PS1")
+  (exec-path-from-shell-copy-env "JAVA_HOME")
+  (exec-path-from-shell-copy-env "PATH"))
+
+;; Emacs on newer Macs not being able to access Desktop/Downloads/Documents:
+;; Assumes installation via brew install emacs --cask
+;; then:
+;; Settings > Privacy and Security > Full Disk Access and add Emacs
+;; then:
+;; cd /Applications/Emacs.app/Contents/MacOS
+;; mv Emacs Emacs-launcher
+;; mv Emacs-arm64-12 Emacs
+;; cd /Applications/Emacs.app/Contents/
+;; mv _CodeSignature _CodeSignature.old
+;; then when accessing one of the folders a pop up appears asking for permissions
+;; give it and it works
+
+;;;  * Backups, autosaves, desktop saves
 
 (let* ((full-path (lambda (dir-name)
                     (expand-file-name dir-name user-emacs-directory)))
@@ -58,74 +121,7 @@
     (setq desktop-path `(,desktop-dir))
     (desktop-save-mode t)))
 
-;;;  * Mac specific settings
-
-(when (eq system-type 'darwin)
-  (setq mac-right-command-modifier 'control)
-  ;; on a Mac, don't complain about setting variables in .bashrc instead of .bash_profile
-  (setq exec-path-from-shell-check-startup-files nil))
-
-(use-package exec-path-from-shell ; load path from bash
-  :ensure t
-  :if (and (eq system-type 'darwin) (display-graphic-p))
-  :config
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "PS1")
-  (exec-path-from-shell-copy-env "CELLAR"))
-
-;;;  * Misc settings
-
-(setq-default indent-tabs-mode nil) ; Indent with no tabs
-(delete-selection-mode t) ; Overwrite selected text
-(setq require-final-newline t) ; Newline at the end of files
-(fset 'yes-or-no-p 'y-or-n-p) ; Use y or n instead of yes and no
-(put 'narrow-to-region 'disabled nil) ; Enable narrowing
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8) ; prefer UTF-8
-(setq sentence-end-double-space nil) ; paragraphs end in a single space
-
-;;;  * Appearance
-
-(setq inhibit-startup-message t
-      inhibit-splash-screen t
-      ring-bell-function 'ignore)
-
-(line-number-mode t) ; Line numbers in mode line
-(column-number-mode t) ; Column numbers in mode line
-(mouse-wheel-mode t) ; Enable scrolling
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-
-(use-package solarized-theme ; + Blended fringe  - Pervasive shitty pea green
-  :ensure t
-  :defer t)
-
-(use-package ample-theme ; + Low-contrast  - Fringe and some of the colours
-  :ensure t
-  :defer t)
-
-(use-package planet-theme ; + Very nice colours  - Fringe, awful vertical line.
-  :ensure t
-  :defer t)
-
-(use-package subatomic-theme ; + Nice colours, Blended Fringe and nice vertical line  - Background not nice
-  :ensure t
-  :defer t)
-
-(use-package twilight-anti-bright-theme ; + Nice background and colours  - Fringe, weird comment outlining
-  :ensure t
-  :defer t)
-
-(defun switch-theme ()
-  "Disable any active themes, then load a new one"
-  (interactive)
-  (mapcar 'disable-theme custom-enabled-themes)
-  (call-interactively 'load-theme))
-
-(setq custom-safe-themes t)
-(load-theme 'planet)
-
-;;;  * General completion interface
+;;;  * Completion interface
 
 (use-package ido
   :ensure t
@@ -136,9 +132,9 @@
   (add-to-list 'ido-ignore-buffers "intero-script*")
   (add-to-list 'ido-ignore-buffers "magit-*")
   (add-to-list 'ido-ignore-files "\\.DS_Store")
-  (ido-mode t))
-
-(use-package ido-ubiquitous
+  (ido-mode t)
+)
+(use-package ido-completing-read+
   :ensure t
   :config
   (ido-ubiquitous-mode t))
@@ -157,11 +153,10 @@
 
 (use-package smex
   :ensure t
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands))
+  :bind ("M-x" . smex)
   :chords ("fk"  . smex))
 
-;;;  * Modal editing
+;;;  * Modal control
 
 (use-package key-chord
   :ensure t
@@ -204,16 +199,14 @@ Keep it active if the buffer is in God mode"
   (setq god-exempt-major-modes nil)
   (setq god-exempt-predicates nil))
 
-;;;  * Quick movement
-
-(use-package avy
+(use-package avy ; quick movement
   :ensure t
   :chords ("kk" . avy-goto-char-timer)
   :config
   (avy-setup-default)
   (setq avy-timeout-seconds 0.2))
 
-;;;  * Frame and Window management
+;;;  * Frame, Window, Minibuffer
 
 (use-package ace-window ; quick jump to frames and more
   :ensure t
@@ -225,8 +218,6 @@ Keep it active if the buffer is in God mode"
 
 (winner-mode t) ; undo-redo frame configuration
 (windmove-default-keybindings) ; use shift-arrow to move between frames
-
-;;;  * Minibuffer
 
 (defun minibuffer-disable-messages ()
   "Disable printing messages to the minibuffer. They will still be
@@ -245,25 +236,11 @@ displayed in the *Messages* buffer"
 (add-hook 'minibuffer-setup-hook 'minibuffer-disable-messages)
 (add-hook 'minibuffer-exit-hook 'minibuffer-enable-messages)
 
-;;;  * Better undo
+;;;  * Editing
 
-(use-package undo-tree
-  :ensure t
-  ;; undo-tree has these bindings in a local
-  ;; keymap only, causing various issues
-  :bind (("C-/" . undo-tree-undo)
-         ("C-?" . undo-tree-redo)
-         ("C-x u" . undo-tree-visualize))
-  :config
-  (global-undo-tree-mode t))
-
-;;;  * Autocompletion
-
-(use-package hippie-exp
+(use-package hippie-exp ; basic autocompletion
   :ensure t
   :chords ("jj" . hippie-expand))
-
-;;;  * Parentheses
 
 (use-package smartparens
   :ensure t
@@ -272,7 +249,32 @@ displayed in the *Messages* buffer"
   (smartparens-global-mode t)
   (show-smartparens-global-mode t))
 
-;;;  * File, Buffer, and Project Management
+(use-package undo-tree
+  :ensure t
+  ;; undo-tree has these bindings in a local
+  ;; keymap only, causing various issues
+  :bind (("C-/" . undo-tree-undo)
+         ("C-?" . undo-tree-redo)
+         ("C-x u" . undo-tree-visualize))
+  :init (global-undo-tree-mode)
+  :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-saves")))
+  (setq undo-tree-visualizer-diff t))
+
+(use-package yasnippet ; templates
+  :ensure t)
+
+(setq-default indent-tabs-mode nil) ; Indent with no tabs
+(delete-selection-mode t) ; Overwrite selected text
+(setq require-final-newline t) ; Newline at the end of files
+(fset 'yes-or-no-p 'y-or-n-p) ; Use y or n instead of yes and no
+(put 'narrow-to-region 'disabled nil) ; Enable narrowing
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8) ; prefer UTF-8
+(setq sentence-end-double-space nil) ; paragraphs end in a single space
+
+
+;;;  * Files, VC, Buffers, Projects
 
 (use-package dired
   :config
@@ -284,47 +286,35 @@ displayed in the *Messages* buffer"
 
 (use-package projectile
   :ensure t
+  :demand t ; without this, shortcuts only work after calling a command manually once
+  :bind (:map projectile-mode-map ; :bind-keymap does not work, have to use this form
+              ("C-c C-p" . projectile-command-map))
   :config
-  (projectile-mode t)
-  :bind (:map projectile-mode-map
-         ("C-c C-p" . projectile-command-map)))
+  (projectile-mode t))
 
 (use-package ibuffer
   :ensure t
   :bind ("C-x C-b" . ibuffer))
 
-;;;  * Version control
+(setq org-agenda-files '("~/Dropbox/todos/todo.org"))
 
 (use-package magit ; Awesome Git porcelain
-  :ensure t
-  :config
-  (setq magit-visit-ref-behavior ; To make 'Enter' check out things in the 'y' panel
-      '(create-branch
-        checkout-any
-        checkout-branch)))
-
+  :ensure t)
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain ; Diff in the current frame
       ediff-split-window-function (if (> (frame-width) 150)
                                           'split-window-horizontally
                                         'split-window-vertically))
 
-;;;  * Rest
-
+;;;  * Web
 (use-package restclient
   :ensure t)
-
-;;;  * Json
 
 (use-package json
   :ensure t)
 
-;;;  * Yaml
-
 (use-package yaml-mode
   :ensure t)
-
-;;;  * Markdown
 
 (use-package markdown-mode
   :ensure t
@@ -382,23 +372,73 @@ displayed in the *Messages* buffer"
     (when (bound-and-true-p latex-preview-pane-mode)
     (latex-preview-pane-mode -1))))
 
+;;;  * LSP
+
+(use-package posframe ; needs to be installed manually
+  :ensure t)
+
+(use-package lsp-mode
+  :ensure t
+  :ensure flycheck
+  :ensure lsp-ui
+  :ensure company
+  :ensure dap-mode
+  :hook
+  (lsp-mode . lsp-lens-mode)
+  (lsp-mode . flycheck-mode)
+  (lsp-mode . dap-mode)
+  (lsp-mode . dap-ui-mode)
+  (lsp-mode . company-mode)
+  :config ;; https://emacs-lsp.github.io/lsp-mode/page/performance/
+  (setq gc-cons-threshold 100000000) ;; 100mb
+  (setq read-process-output-max (* 1024 1024)) ;; 1mb
+  (setq lsp-idle-delay 0.500)
+  (setq lsp-log-io nil)
+  (setq lsp-completion-provider :capf)
+  (setq lsp-prefer-flymake nil))
+
 ;;;  * Scala
 
-(use-package ensime
+(use-package scala-mode
   :ensure t
-  :pin melpa-stable
+  ;; :hook
+  ;; (scala-mode . lsp)
+  :interpreter
+  ("scala" . scala-mode))
+
+(use-package sbt-mode
+  :ensure t
+  :commands sbt-start sbt-command
+  :bind
+  (:prefix-map my-sbt--map
+               :prefix "C-c C-b"
+               ("c" . sbt-do-compile)
+               ("t" . sbt-do-test)
+               ("o" . sbt-switch-to-active-sbt-buffer) ; mnemonic: open
+               ("l" . run-scala) ; mnemonic: load
+               ("g" . sbt-grep)
+               ("f" . lsp-format-buffer))
   :config
-  (setq sbt:program-options '("-Dsbt.supershell=false")))
+  (setq sbt:prefer-nested-projects t))
+
+(use-package lsp-metals
+  :ensure t)
 
 ;;;  * Haskell
 
-(use-package intero
-  :ensure t)
-
 (use-package haskell-mode
   :ensure t
+  :hook
+  (haskell-mode . interactive-haskell-mode)
   :config
-  (add-hook 'haskell-mode-hook 'intero-mode))
+  (setq haskell-process-load-or-reload-prompt t)
+  (setq haskell-process-auto-import-loaded-modules t)
+  (setq haskell-process-log t))
+
+(use-package dante
+  :ensure t
+  :hook
+  (haskell-mode . dante-mode))
 
 ;;;  * Bazel
 
@@ -409,91 +449,3 @@ displayed in the *Messages* buffer"
 ;;;  * Terraform
 (use-package terraform-mode
   :ensure t)
-;;;  * custom-set-variables
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#839496"])
- '(compilation-message-face (quote default))
- '(cua-global-mark-cursor-color "#2aa198")
- '(cua-normal-cursor-color "#657b83")
- '(cua-overwrite-cursor-color "#b58900")
- '(cua-read-only-cursor-color "#859900")
- '(fci-rule-color "#eee8d5")
- '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-symbol-colors
-   (--map
-    (solarized-color-blend it "#fdf6e3" 0.25)
-    (quote
-     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
- '(highlight-symbol-foreground-color "#586e75")
- '(highlight-tail-colors
-   (quote
-    (("#eee8d5" . 0)
-     ("#B4C342" . 20)
-     ("#69CABF" . 30)
-     ("#69B7F0" . 50)
-     ("#DEB542" . 60)
-     ("#F2804F" . 70)
-     ("#F771AC" . 85)
-     ("#eee8d5" . 100))))
- '(hl-bg-colors
-   (quote
-    ("#DEB542" "#F2804F" "#FF6E64" "#F771AC" "#9EA0E5" "#69B7F0" "#69CABF" "#B4C342")))
- '(hl-fg-colors
-   (quote
-    ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
- '(hl-paren-colors (quote ("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900")))
- '(magit-diff-use-overlays nil)
- '(nrepl-message-colors
-   (quote
-    ("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4")))
- '(org-agenda-files (quote ("~/Dropbox/todos/todo.org")))
- '(package-selected-packages
-   (quote
-    (terraform-mode bazel emacs-bazel-mode bazel-mode intero ensime latex-preview-pane auctex markdown-mode yaml-mode restclient magit projectile smartparens undo-tree ace-window avy god-mode smex ido-vertical-mode flx-ido ido-ubiquitous twilight-anti-bright-theme subatomic-theme planet-theme ample-theme solarized-theme exec-path-from-shell use-package-chords key-chord use-package diminish)))
- '(pos-tip-background-color "#eee8d5")
- '(pos-tip-foreground-color "#586e75")
- '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
- '(term-default-bg-color "#fdf6e3")
- '(term-default-fg-color "#657b83")
- '(vc-annotate-background nil)
- '(vc-annotate-background-mode nil)
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#dc322f")
-     (40 . "#c9485ddd1797")
-     (60 . "#bf7e73b30bcb")
-     (80 . "#b58900")
-     (100 . "#a5a58ee30000")
-     (120 . "#9d9d91910000")
-     (140 . "#9595943e0000")
-     (160 . "#8d8d96eb0000")
-     (180 . "#859900")
-     (200 . "#67119c4632dd")
-     (220 . "#57d79d9d4c4c")
-     (240 . "#489d9ef365ba")
-     (260 . "#3963a04a7f29")
-     (280 . "#2aa198")
-     (300 . "#288e98cbafe2")
-     (320 . "#27c19460bb87")
-     (340 . "#26f38ff5c72c")
-     (360 . "#268bd2"))))
- '(vc-annotate-very-old-color nil)
- '(weechat-color-list
-   (quote
-    (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496")))
- '(xterm-color-names
-   ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"])
- '(xterm-color-names-bright
-   ["#fdf6e3" "#cb4b16" "#93a1a1" "#839496" "#657b83" "#6c71c4" "#586e75" "#002b36"]))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
