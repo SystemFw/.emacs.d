@@ -87,19 +87,6 @@
   (exec-path-from-shell-copy-env "JAVA_HOME")
   (exec-path-from-shell-copy-env "PATH"))
 
-;; Emacs on newer Macs not being able to access Desktop/Downloads/Documents:
-;; Assumes installation via brew install emacs --cask
-;; then:
-;; Settings > Privacy and Security > Full Disk Access and add Emacs
-;; then:
-;; cd /Applications/Emacs.app/Contents/MacOS
-;; mv Emacs Emacs-launcher
-;; mv Emacs-arm64-12 Emacs
-;; cd /Applications/Emacs.app/Contents/
-;; mv _CodeSignature _CodeSignature.old
-;; then when accessing one of the folders a pop up appears asking for permissions
-;; give it and it works
-
 ;;;  * Backups, autosaves, desktop saves
 
 (let* ((full-path (lambda (dir-name)
