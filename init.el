@@ -73,19 +73,9 @@
 
 ;;;  * Mac specific settings
 
+;; Used mainly to to do Cmd-G to cancel operations
 (when (eq system-type 'darwin)
-  (setq mac-right-command-modifier 'control)
-  ;; on a Mac, don't complain about setting variables in .bashrc instead of .bash_profile
-  (setq exec-path-from-shell-check-startup-files nil))
-
-(use-package exec-path-from-shell ; load path from bash
-  :ensure t
-  :if (and (eq system-type 'darwin) (display-graphic-p))
-  :config
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "PS1")
-  (exec-path-from-shell-copy-env "JAVA_HOME")
-  (exec-path-from-shell-copy-env "PATH"))
+  (setq mac-right-command-modifier 'control))
 
 ;;;  * Backups, autosaves, desktop saves
 
