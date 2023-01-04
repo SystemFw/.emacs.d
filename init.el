@@ -4,38 +4,32 @@
 
 ;;;  * Package init
 
-(setq load-prefer-newer t) ; don't load outdated bytecode
+;; Install straight.el
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-(require 'package)
-(setq package-enable-at-startup nil)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+;; Install use-package
+(straight-use-package 'use-package)
 
-(package-initialize)
+;; Configure use-package to use straight.el by default
+(use-package straight
+             :custom (straight-use-package-by-default t))
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-;; https://github.com/jkitchin/scimax/issues/150
-(unless (package-installed-p 'diminish)
-  (package-refresh-contents)
-  (package-install 'diminish))
-
-
-(eval-when-compile
-  (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
-
-(use-package use-package-chords ; define key-chords in use package declarations
-  :ensure key-chord
-  :ensure t)
+(use-package use-package-chords) ; define key-chords in use package declarations
 
 ;;;  * Meta
 
 (use-package outshine ; enable folding of this file
-  :ensure t
   :hook (emacs-lisp-mode . outshine-mode))
 
 ; I don't use Customize but some settings are saved by emacs automatically.
@@ -58,9 +52,7 @@
 (tool-bar-mode -1)
 
 
-(use-package planet-theme
-  :ensure t
-  :defer t)
+(use-package planet-theme)
 
 (defun switch-theme ()
   "Disable any active themes, then load a new one"
@@ -101,7 +93,6 @@
 ;;;  * Completion interface
 
 (use-package ido
-  :ensure t
   :config
   (setq ido-enable-flex-matching t
         ido-everywhere t)
@@ -112,31 +103,26 @@
   (ido-mode t)
 )
 (use-package ido-completing-read+
-  :ensure t
   :config
   (ido-ubiquitous-mode t))
 
 (use-package flx-ido
-  :ensure t
   :config
   (setq ido-use-faces nil) ; disable ido faces to see flx highlights.
   (flx-ido-mode t))
 
 (use-package ido-vertical-mode
-  :ensure t
   :config
   (setq ido-vertical-define-keys 'C-n-C-p)
   (ido-vertical-mode t))
 
 (use-package smex
-  :ensure t
   :bind ("M-x" . smex)
   :chords ("fk"  . smex))
 
 ;;;  * Modal control
 
 (use-package key-chord
-  :ensure t
   :bind (("C-x f" . find-file)
          ("C-x C-f" . set-fill-column)
          ("C-x s" . save-buffer)
@@ -148,7 +134,6 @@
   (key-chord-define-global "fj" ctl-x-map))
 
 (use-package god-mode
-  :ensure t
   :init (require' god-mode-isearch)
   :bind (("<escape>" . god-mode-idempotent-enable)
          :map god-local-mode-map
@@ -177,7 +162,6 @@ Keep it active if the buffer is in God mode"
   (setq god-exempt-predicates nil))
 
 (use-package avy ; quick movement
-  :ensure t
   :chords ("kk" . avy-goto-char-timer)
   :config
   (avy-setup-default)
@@ -186,7 +170,6 @@ Keep it active if the buffer is in God mode"
 ;;;  * Frame, Window, Minibuffer
 
 (use-package ace-window ; quick jump to frames and more
-  :ensure t
   :bind ("C-x o" . ace-window)
   :config
   (setq aw-dispatch-always t)
@@ -216,18 +199,15 @@ displayed in the *Messages* buffer"
 ;;;  * Editing
 
 (use-package hippie-exp ; basic autocompletion
-  :ensure t
   :chords ("jj" . hippie-expand))
 
 (use-package smartparens
-  :ensure t
   :config
   (setq sp-highlight-pair-overlay nil) ; Don't highlight current sexp
   (smartparens-global-mode t)
   (show-smartparens-global-mode t))
 
 (use-package undo-tree
-  :ensure t
   ;; undo-tree has these bindings in a local
   ;; keymap only, causing various issues
   :bind (("C-/" . undo-tree-undo)
@@ -238,8 +218,7 @@ displayed in the *Messages* buffer"
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-saves")))
   (setq undo-tree-visualizer-diff t))
 
-(use-package yasnippet ; templates
-  :ensure t)
+(use-package yasnippet) ; templates
 
 (setq-default indent-tabs-mode nil) ; Indent with no tabs
 (delete-selection-mode t) ; Overwrite selected text
@@ -254,6 +233,7 @@ displayed in the *Messages* buffer"
 ;;;  * Files, VC, Buffers, Projects
 
 (use-package dired
+  :straight (:type built-in)
   :config
   (setq dired-dwim-target t) ; allows copying between two open dired buffers automatically
   (setq dired-recursive-deletes 'always)
@@ -262,7 +242,6 @@ displayed in the *Messages* buffer"
   (require 'dired-x)) ; dired jump to dir of current buffer
 
 (use-package projectile
-  :ensure t
   :demand t ; without this, shortcuts only work after calling a command manually once
   :bind (:map projectile-mode-map ; :bind-keymap does not work, have to use this form
               ("C-c C-p" . projectile-command-map))
@@ -270,13 +249,11 @@ displayed in the *Messages* buffer"
   (projectile-mode t))
 
 (use-package ibuffer
-  :ensure t
   :bind ("C-x C-b" . ibuffer))
 
 (setq org-agenda-files '("~/Dropbox/todos/todo.org"))
 
-(use-package magit ; Awesome Git porcelain
-  :ensure t)
+(use-package magit) ; Awesome Git porcelain
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain ; Diff in the current frame
       ediff-split-window-function (if (> (frame-width) 150)
@@ -284,17 +261,13 @@ displayed in the *Messages* buffer"
                                         'split-window-vertically))
 
 ;;;  * Web
-(use-package restclient
-  :ensure t)
+(use-package restclient)
 
-(use-package json
-  :ensure t)
+(use-package json)
 
-(use-package yaml-mode
-  :ensure t)
+(use-package yaml-mode)
 
 (use-package markdown-mode
-  :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -304,7 +277,7 @@ displayed in the *Messages* buffer"
 ;;;  * Latex
 
 (use-package tex
-  :ensure auctex ; (use-package auctex :ensure t) does not work with :defer
+  :straight auctex ; (use-package auctex :ensure t) does not work with :defer
   :bind (:map LaTeX-mode-map
               ("M-p" . latex-preview-pane-start-preview)
               ("C-q" . latex-preview-pane-stop-preview))
@@ -335,7 +308,6 @@ displayed in the *Messages* buffer"
     (setq TeX-font-list (add-stripped 'TeX-font-list))))
 
 (use-package latex-preview-pane
-  :ensure t
   :config
   (defun latex-preview-pane-start-preview ()
     "Start a live pdf preview-on-save of a TeX document in an adjacent window"
@@ -352,14 +324,12 @@ displayed in the *Messages* buffer"
 ;;;  * Scala
 
 (use-package scala-mode
-  :ensure t
   ;; :hook
   ;; (scala-mode . lsp)
   :interpreter
   ("scala" . scala-mode))
 
 (use-package sbt-mode
-  :ensure t
   :commands sbt-start sbt-command
   :bind
   (:prefix-map my-sbt--map
@@ -375,7 +345,6 @@ displayed in the *Messages* buffer"
 ;;;  * Haskell
 
 (use-package haskell-mode
-  :ensure t
   :hook
   (haskell-mode . interactive-haskell-mode)
   :config
@@ -384,16 +353,13 @@ displayed in the *Messages* buffer"
   (setq haskell-process-log t))
 
 (use-package dante
-  :ensure t
   :hook
   (haskell-mode . dante-mode))
 
 ;;;  * Bazel
 
 (use-package bazel
-  :ensure t
   :mode (("BUILD'" . bazel-mode)))
 
 ;;;  * Terraform
-(use-package terraform-mode
-  :ensure t)
+(use-package terraform-mode)
