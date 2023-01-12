@@ -65,9 +65,17 @@
 
 ;;;  * Mac specific settings
 
-;; Used mainly to to do Cmd-G to cancel operations
 (when (eq system-type 'darwin)
-  (setq mac-right-command-modifier 'control))
+  (setq mac-right-command-modifier 'control)) ; Enables Cmd-G to cancel operations
+
+;;;  * Shell
+
+(setq explicit-shell-file-name "/bin/zsh")
+(setq shell-file-name "zsh")
+(setq explicit-zsh-args '("-l")) ; it's a login shell so it sources .zprofile
+(defun zsh-shell-mode-setup ()
+  (setq-local comint-process-echoes t)) ; no command echo
+(add-hook 'shell-mode-hook #'zsh-shell-mode-setup)
 
 ;;;  * Backups, autosaves, desktop saves
 
