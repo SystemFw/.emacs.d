@@ -371,3 +371,7 @@ displayed in the *Messages* buffer"
 
 ;;;  * Terraform
 (use-package terraform-mode)
+
+;;;  * Unison
+
+(use-package unisonlang-mode)
