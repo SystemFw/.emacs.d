@@ -355,6 +355,7 @@ displayed in the *Messages* buffer"
 (use-package haskell-mode
   :hook
   (haskell-mode . interactive-haskell-mode)
+  (haskell-mode . flymake-mode)
   :config
   (setq haskell-process-load-or-reload-prompt t)
   (setq haskell-process-auto-import-loaded-modules t)
