@@ -211,7 +211,6 @@ displayed in the *Messages* buffer"
 
 (use-package smartparens
   :config
-  (setq sp-highlight-pair-overlay nil) ; Don't highlight current sexp
   (smartparens-global-mode t)
   (show-smartparens-global-mode t))
 
