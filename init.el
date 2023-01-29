@@ -105,7 +105,6 @@
   (setq ido-enable-flex-matching t
         ido-everywhere t)
   (add-to-list 'ido-ignore-buffers "*")
-  (add-to-list 'ido-ignore-buffers "intero-script*")
   (add-to-list 'ido-ignore-buffers "magit-*")
   (add-to-list 'ido-ignore-files "\\.DS_Store")
   (ido-mode t)
