@@ -63,6 +63,12 @@
 (setq custom-safe-themes t)
 (load-theme 'planet)
 
+;; display indentation lines in whitespace sensitive langs
+(use-package highlight-indent-guides
+  :hook (haskell-mode racket-mode unison-mode)
+  :config
+  (setq highlight-indent-guides-method 'character))
+
 ;;;  * Mac specific settings
 
 (when (eq system-type 'darwin)
