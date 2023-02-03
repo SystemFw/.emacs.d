@@ -372,5 +372,7 @@ displayed in the *Messages* buffer"
 (use-package terraform-mode)
 
 ;;;  * Unison
-
 (use-package unisonlang-mode)
+
+;;;  * Racket
+(use-package racket-mode)
