@@ -381,4 +381,5 @@ displayed in the *Messages* buffer"
 (use-package unisonlang-mode)
 
 ;;;  * Racket
-(use-package racket-mode)
+(use-package racket-mode
+  :mode "\\.ss\\'") ; Use it on other schemes as well
