@@ -65,7 +65,7 @@
 
 ;; display indentation lines in whitespace sensitive langs
 (use-package highlight-indent-guides
-  :hook (haskell-mode racket-mode unison-mode)
+  :hook (haskell-mode racket-mode unisonlang-mode)
   :config
   (setq highlight-indent-guides-method 'character))
 
