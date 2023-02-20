@@ -248,6 +248,7 @@ displayed in the *Messages* buffer"
   (setq dired-dwim-target t) ; allows copying between two open dired buffers automatically
   (setq dired-recursive-deletes 'always)
   (setq dired-recursive-copies 'always)
+  (setq dired-kill-when-opening-new-dired-buffer t)
   (put 'dired-find-alternate-file 'disabled nil) ; enable dired navigation in the same buffer
   (require 'dired-x)) ; dired jump to dir of current buffer
 
