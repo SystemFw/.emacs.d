@@ -80,7 +80,7 @@
   (setq-local comint-process-echoes t)) ; no command echo
 (add-hook 'shell-mode-hook #'zsh-shell-mode-setup)
 
-;;;  * Backups, autosaves, desktop saves
+;;;  * Backups, autosaves, lockfiles, desktop saves
 
 (setq make-backup-files t
       version-control t
@@ -89,9 +89,12 @@
       backup-by-copying t
       kept-new-versions 9
       kept-old-versions 6
-      backup-directory-alist `(("." .  "~/.emacs.d/backups")))
+      backup-directory-alist `((".*" .  "~/.emacs.d/backups")))
 
-(setq auto-save-file-name-transforms `((".*" "~/.emacs.d/autosaves" t)))
+(setq lock-file-name-transforms
+      '(("\\`/.*/\\([^/]+\\)\\'" "~/.emacs.d/autosaves/\\1" t)))
+(setq auto-save-file-name-transforms
+      '(("\\`/.*/\\([^/]+\\)\\'" "~/.emacs.d/lockfiles/\\1" t)))
 
 (use-package desktop
   :init
