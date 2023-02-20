@@ -85,6 +85,10 @@
 (setq make-backup-files t
       version-control t
       delete-old-versions t
+      delete-by-moving-to-trash t
+      backup-by-copying t
+      kept-new-versions 9
+      kept-old-versions 6
       backup-directory-alist `(("." .  "~/.emacs.d/backups")))
 
 (setq auto-save-file-name-transforms `((".*" "~/.emacs.d/autosaves" t)))
