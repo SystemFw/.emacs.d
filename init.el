@@ -222,7 +222,7 @@ displayed in the *Messages* buffer"
          ("C-x u" . undo-tree-visualize))
   :init (global-undo-tree-mode)
   :config
-  (setq undro-tree-auto-save-history nil)
+  (setq undo-tree-auto-save-history nil)
   (setq undo-tree-visualizer-diff t))
 
 (use-package yasnippet) ; templates
