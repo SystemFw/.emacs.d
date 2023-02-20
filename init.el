@@ -82,24 +82,17 @@
 
 ;;;  * Backups, autosaves, desktop saves
 
-(let* ((full-path (lambda (dir-name)
-                    (expand-file-name dir-name user-emacs-directory)))
-       (create-dir-if-nonexistent (lambda (dir-name)
-                                    (unless (file-exists-p dir-name)
-                                      (make-directory dir-name))))
-       (backup-dir (funcall full-path "backups"))
-       (save-file-dir (funcall full-path "autosaves"))
-       (desktop-dir (funcall full-path "desktop-saves")))
-  (mapcar create-dir-if-nonexistent `(,backup-dir ,save-file-dir ,desktop-dir))
-  (setq make-backup-files t
-        version-control t
-        delete-old-versions t
-        backup-directory-alist `((".*" . ,backup-dir)))
-  (setq auto-save-file-name-transforms `((".*" ,save-file-dir t)))
-  (use-package desktop
-    :init
-    (setq desktop-path `(,desktop-dir))
-    (desktop-save-mode t)))
+(setq make-backup-files t
+      version-control t
+      delete-old-versions t
+      backup-directory-alist `(("." .  "~/.emacs.d/backups")))
+
+(setq auto-save-file-name-transforms `((".*" "~/.emacs.d/autosaves" t)))
+
+(use-package desktop
+  :init
+  (setq desktop-path `("~/.emacs.d/desktop-saves"))
+  (desktop-save-mode t))
 
 ;;;  * Completion interface
 
