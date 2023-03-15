@@ -153,7 +153,8 @@
          ("<escape>" . god-mode-isearch-activate)
          :map god-mode-isearch-map
          ("<escape>" . god-mode-isearch-disable))
-  :chords ("jk" . god-mode-idempotent-enable)
+  :chords (("jk" . god-mode-idempotent-enable)
+           ("ii" . god-mode-idempotent-enable))
   :config
   (defun god-mode-idempotent-enable ()
      "Activate God mode if the buffer is in insert mode.
