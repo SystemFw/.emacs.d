@@ -53,6 +53,7 @@
 
 
 (use-package planet-theme)
+(use-package nord-theme)
 
 (defun switch-theme ()
   "Disable any active themes, then load a new one"
@@ -61,7 +62,7 @@
   (call-interactively 'load-theme))
 
 (setq custom-safe-themes t)
-(load-theme 'planet)
+(load-theme 'nord)
 
 (use-package indent-guide
   :config (indent-guide-global-mode))
