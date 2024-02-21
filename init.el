@@ -80,6 +80,10 @@
   (setq-local comint-process-echoes t)) ; no command echo
 (add-hook 'shell-mode-hook #'zsh-shell-mode-setup)
 
+;; works better with ucm
+(use-package mistty
+  :bind (("C-c s" . mistty-other-window)))
+
 ;;;  * Backups, autosaves, lockfiles, desktop saves
 
 (setq make-backup-files t
