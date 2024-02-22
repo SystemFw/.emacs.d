@@ -394,3 +394,5 @@ displayed in the *Messages* buffer"
 ;;;  * Racket
 (use-package racket-mode
   :mode "\\.ss\\'") ; Use it on other schemes as well
+;;;  * Rust
+(use-package rust-mode)
