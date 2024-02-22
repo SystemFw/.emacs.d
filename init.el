@@ -77,6 +77,7 @@
 
 (setq explicit-shell-file-name "/bin/zsh")
 (setq shell-file-name "zsh")
+(setq eshell-scroll-to-bottom-on-output t)
 (setq explicit-zsh-args '("-l")) ; it's a login shell so it sources .zprofile
 (defun zsh-shell-mode-setup ()
   (setq-local comint-process-echoes t)) ; no command echo
