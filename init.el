@@ -45,7 +45,7 @@
       ring-bell-function 'ignore
       cursor-in-non-selected-windows nil)
 
-(line-number-mode t) ; Line numbers in mode line
+(global-display-line-numbers-mode t) ; Line numbers in mode line
 (column-number-mode t) ; Column numbers in mode line
 (display-line-numbers-mode t)
 (mouse-wheel-mode t) ; Enable scrolling
