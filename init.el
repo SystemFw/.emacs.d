@@ -2,6 +2,7 @@
 
 (setq user-full-name "Fabio Labella")
 
+
 ;;;  * Package init
 
 ;; Install straight.el
@@ -396,3 +397,6 @@ displayed in the *Messages* buffer"
   :mode "\\.ss\\'") ; Use it on other schemes as well
 ;;;  * Rust
 (use-package rust-mode)
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
+
