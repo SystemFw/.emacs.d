@@ -274,6 +274,9 @@ displayed in the *Messages* buffer"
 (setq org-agenda-files '("~/Dropbox/todos/todo.org"))
 
 (use-package magit) ; Awesome Git porcelain
+(use-package magit-todos ; Displays `TODO:` in magit buffer
+  :after magit
+  :config (magit-todos-mode t))
 
 (setq ediff-window-setup-function 'ediff-setup-windows-plain ; Diff in the current frame
       ediff-split-window-function (if (> (frame-width) 150)
