@@ -86,6 +86,7 @@
 
 ;; works better with ucm
 (use-package mistty
+  :config (setq compilation-scroll-output t)
   :bind (("C-c s" . mistty-other-window)))
 
 ;;;  * Backups, autosaves, lockfiles, desktop saves
