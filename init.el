@@ -84,6 +84,16 @@
   (setq-local comint-process-echoes t)) ; no command echo
 (add-hook 'shell-mode-hook #'zsh-shell-mode-setup)
 
+(use-package exec-path-from-shell ; load path from bash
+  :ensure t
+  :if (and (eq system-type 'darwin) (display-graphic-p))
+  :config
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "PS1")
+  (exec-path-from-shell-copy-env "JAVA_HOME")
+  (exec-path-from-shell-copy-env "PATH"))
+  (setq mac-right-command-modifier 'control)
+
 ;; works better with ucm
 (use-package mistty
   :config (setq compilation-scroll-output t)
