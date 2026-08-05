@@ -162,34 +162,47 @@
   :config
   (key-chord-define-global "fj" ctl-x-map))
 
+
 (use-package god-mode
-  :init (require' god-mode-isearch)
-  :bind (("<escape>" . god-mode-idempotent-enable)
-         :map god-local-mode-map
-         ("i" . god-local-mode)
-         ("." . repeat)
-         :map isearch-mode-map
-         ("<escape>" . god-mode-isearch-activate)
-         :map god-mode-isearch-map
-         ("<escape>" . god-mode-isearch-disable))
-  :chords (("jk" . god-mode-idempotent-enable)
-           ("ii" . god-mode-idempotent-enable))
+  :init
+  (require 'god-mode-isearch)
+  :bind
+  (("<escape>" . god-mode-idempotent-enable)
+   :map god-local-mode-map
+   ("i" . god-mode-disable-and-reset-key-chord)
+   ("." . repeat)
+   :map isearch-mode-map
+   ("<escape>" . god-mode-isearch-activate)
+   :map god-mode-isearch-map
+   ("<escape>" . god-mode-isearch-disable))
+  :chords
+  (("jk" . god-mode-idempotent-enable)
+   ("ii" . god-mode-idempotent-enable))
   :config
   (defun god-mode-idempotent-enable ()
      "Activate God mode if the buffer is in insert mode.
 Keep it active if the buffer is in God mode"
     (interactive)
-    (when (god-local-mode)
-      'god-local-mode))
+    (unless god-local-mode
+      (god-local-mode 1)))
+  (defun god-mode-disable-and-reset-key-chord ()
+    "Leave God mode,  and clear retained key-chord state.
+This ensure the next `ii` will be considered a key-chord"
+    (interactive)
+    (god-local-mode -1)
+    (key-chord-reset-all-state))
   (defun god-mode-custom-update-cursor ()
-    "Change cursor shape in god mode"
-    (setq cursor-type (if (or god-local-mode buffer-read-only)
-                          'bar
-                        'box)))
-  (add-hook 'god-mode-enabled-hook 'god-mode-custom-update-cursor)
-  (add-hook 'god-mode-disabled-hook 'god-mode-custom-update-cursor)
-  (setq god-exempt-major-modes nil)
-  (setq god-exempt-predicates nil))
+    "Change cursor shape in God mode."
+    (setq cursor-type
+          (if (or god-local-mode buffer-read-only)
+              'bar
+            'box)))
+  (add-hook 'god-mode-enabled-hook
+            #'god-mode-custom-update-cursor)
+  (add-hook 'god-mode-disabled-hook
+            #'god-mode-custom-update-cursor)
+  (setq god-exempt-major-modes nil
+        god-exempt-predicates nil))
 
 (use-package avy ; quick movement
   :chords ("kk" . avy-goto-char-timer)
