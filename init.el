@@ -108,17 +108,25 @@
       backup-by-copying t
       kept-new-versions 9
       kept-old-versions 6
-      backup-directory-alist `((".*" .  "~/.emacs.d/backups")))
+      backup-directory-alist '((".*" . "~/.emacs.d/backups")))
+
+(setq auto-save-file-name-transforms
+      '((".*" "~/.emacs.d/autosaves/" t)))
 
 (setq lock-file-name-transforms
-      '(("\\`/.*/\\([^/]+\\)\\'" "~/.emacs.d/autosaves/\\1" t)))
-(setq auto-save-file-name-transforms
-      '(("\\`/.*/\\([^/]+\\)\\'" "~/.emacs.d/lockfiles/\\1" t)))
+      '((".*" "~/.emacs.d/lockfiles/" t)))
+
+(dolist (dir '("~/.emacs.d/backups"
+               "~/.emacs.d/autosaves"
+               "~/.emacs.d/lockfiles"
+               "~/.emacs.d/desktop-saves"))
+  (make-directory (expand-file-name dir) t))
 
 (use-package desktop
+  :straight nil
   :init
-  (setq desktop-path `("~/.emacs.d/desktop-saves"))
-  (desktop-save-mode t))
+  (setq desktop-path '("~/.emacs.d/desktop-saves"))
+  (desktop-save-mode 1))
 
 ;;;  * Completion interface
 
