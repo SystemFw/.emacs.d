@@ -368,6 +368,22 @@ displayed in the *Messages* buffer"
     (when (bound-and-true-p latex-preview-pane-mode)
     (latex-preview-pane-mode -1))))
 
+;;;  * Treesitter + LSP
+
+(use-package eglot
+  :straight nil)
+
+(use-package treesit-auto
+  :straight t
+  :config
+  (global-treesit-auto-mode))
+
+;;; * Java
+
+(use-package java-mode
+  :straight nil
+  :hook ((java-mode java-ts-mode) . eglot-ensure))
+
 ;;;  * Scala
 
 (use-package scala-mode
