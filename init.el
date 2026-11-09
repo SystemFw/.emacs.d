@@ -431,16 +431,10 @@ displayed in the *Messages* buffer"
 ;;;  * Terraform
 (use-package terraform-mode)
 
-;;;  * Unison
-;; (use-package unisonlang-mode)
-;; (use-package unison-ts-mode
-;;   :straight (:type git
-;;              :host github
-;;              :repo "fmguerreiro/unison-ts-mode"
-;;              :files ("*.el")))
 ;;;  * Racket
 (use-package racket-mode
   :mode "\\.ss\\'") ; Use it on other schemes as well
+
 ;;;  * Rust
 (use-package rust-mode)
 (use-package cargo
