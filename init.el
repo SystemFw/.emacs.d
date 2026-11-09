@@ -381,11 +381,6 @@ displayed in the *Messages* buffer"
 (use-package eglot
   :straight nil)
 
-(use-package treesit-auto
-  :straight t
-  :config
-  (global-treesit-auto-mode))
-
 ;;; * Java
 
 (use-package java-mode
